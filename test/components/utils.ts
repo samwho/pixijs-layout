@@ -66,21 +66,14 @@ export async function screenshot(app: PIXI.Application | HTMLCanvasElement) {
   fs.writeFileSync(path, base64, "base64");
 }
 
-export async function visualTest(
-  name: string,
-  cb: (app: PIXI.Application) => Positioner & PIXI.DisplayObject,
-) {
+export function visualTest(name: string, cb: (app: PIXI.Application) => void) {
   it(name, async () => {
-    let screen = new PIXI.Rectangle(0, 0, 800, 600);
-    let canvas: HTMLCanvasElement;
-    let app: PIXI.Application;
-
-    canvas = document.createElement("canvas");
-    canvas.width = screen.width;
-    canvas.height = screen.height;
+    let canvas = document.createElement("canvas");
+    canvas.width = 800;
+    canvas.height = 600;
     document.body.appendChild(canvas);
 
-    app = new PIXI.Application({
+    let app = new PIXI.Application({
       autoStart: false,
       forceCanvas: true,
       view: canvas,
@@ -88,11 +81,10 @@ export async function visualTest(
       backgroundColor: 0xffffff,
     });
 
-    app.renderer.resize(screen.width, screen.height);
+    app.renderer.resize(800, 600);
 
-    let layout = cb(app);
-    app.stage.addChild(layout);
-    layout.arrange(app.renderer.screen);
+    cb(app);
+
     app.render();
 
     let testName = expect.getState().currentTestName;
@@ -116,5 +108,16 @@ export async function visualTest(
 
     app.destroy();
     document.body.removeChild(canvas);
+  });
+}
+
+export async function componentTest(
+  name: string,
+  cb: (app: PIXI.Application) => Positioner & PIXI.DisplayObject,
+) {
+  visualTest(name, (app) => {
+    let layout = cb(app);
+    app.stage.addChild(layout);
+    layout.arrange(app.renderer.screen);
   });
 }

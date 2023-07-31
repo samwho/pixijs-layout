@@ -8,6 +8,13 @@ enum Resize {
   Stretch,
 }
 
+enum Align {
+  Start,
+  Middle,
+  End,
+  None,
+}
+
 export default class Leaf extends Container implements Positioner {
   _child: Container;
   _space: Rectangle = new Rectangle();
@@ -17,7 +24,8 @@ export default class Leaf extends Container implements Positioner {
   _minWidth: number | string = 0;
   _minHeight: number | string = 0;
   _padding: number | string = 0;
-  _center: boolean = false;
+  _xAlign: Align = Align.None;
+  _yAlign: Align = Align.None;
   _resize: Resize = Resize.None;
 
   constructor(child: Container) {
@@ -51,8 +59,29 @@ export default class Leaf extends Container implements Positioner {
     return this;
   }
 
-  center(value?: boolean): this {
-    this._center = value ?? true;
+  center(): this {
+    this._xAlign = Align.Middle;
+    this._yAlign = Align.Middle;
+    return this;
+  }
+
+  left(): this {
+    this._xAlign = Align.Start;
+    return this;
+  }
+
+  right(): this {
+    this._xAlign = Align.End;
+    return this;
+  }
+
+  top(): this {
+    this._yAlign = Align.Start;
+    return this;
+  }
+
+  bottom(): this {
+    this._yAlign = Align.End;
     return this;
   }
 
@@ -129,6 +158,7 @@ export default class Leaf extends Container implements Positioner {
       case Resize.Stretch:
         width = space.width;
         height = space.height;
+
         break;
       case Resize.None:
         width = this._child.width;
@@ -136,9 +166,41 @@ export default class Leaf extends Container implements Positioner {
         break;
     }
 
-    if (this._center) {
-      x = space.x + space.width / 2;
-      y = space.y + space.height / 2;
+    if (width > maxWidth) {
+      width = maxWidth;
+    }
+    if (height > maxHeight) {
+      height = maxHeight;
+    }
+    if (width < minWidth) {
+      width = minWidth;
+    }
+    if (height < minHeight) {
+      height = minHeight;
+    }
+
+    switch (this._xAlign) {
+      case Align.Start:
+        x = space.x;
+        break;
+      case Align.Middle:
+        x = space.x + space.width / 2;
+        break;
+      case Align.End:
+        x = space.x + space.width - width;
+        break;
+    }
+
+    switch (this._yAlign) {
+      case Align.Start:
+        y = space.y;
+        break;
+      case Align.Middle:
+        y = space.y + space.height / 2;
+        break;
+      case Align.End:
+        y = space.y + space.height - height;
+        break;
     }
 
     this._child.x = x;
