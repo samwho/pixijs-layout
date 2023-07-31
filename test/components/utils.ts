@@ -22,15 +22,28 @@ export function rect({
   y,
   width,
   height,
+  center,
 }: {
   x?: number;
   y?: number;
   width?: number;
   height?: number;
+  center?: boolean;
 }): PIXI.Graphics {
+  x = x ?? 0;
+  y = y ?? 0;
+  width = width ?? 50;
+  height = height ?? 50;
+  center = center ?? false;
+
   let rect = new PIXI.Graphics();
+
+  if (center) {
+    rect.pivot.x = width / 2;
+    rect.pivot.y = height / 2;
+  }
   rect.beginFill(0xff0000);
-  rect.drawRect(x ?? 0, y ?? 0, width ?? 50, height ?? 50);
+  rect.drawRect(x, y, width, height);
   rect.endFill();
   return rect;
 }
