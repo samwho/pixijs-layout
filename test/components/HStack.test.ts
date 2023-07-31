@@ -1,6 +1,6 @@
 import { Container } from "pixi.js-legacy";
 import HStack from "../../src/components/HStack";
-import { componentTest } from "./utils";
+import { componentTest } from "../utils";
 
 describe("HStack", () => {
   componentTest("2 splits", () =>

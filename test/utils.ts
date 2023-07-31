@@ -1,7 +1,7 @@
 import { expect } from "@jest/globals";
 import * as PIXI from "pixi.js-legacy";
 import fs from "fs";
-import Positioner from "../../src/components/Positioner";
+import Positioner from "../src/components/Positioner";
 
 export function circle({
   x,

@@ -1,5 +1,5 @@
 import Leaf from "../../src/components/Leaf";
-import { circle, componentTest, visualTest } from "./utils";
+import { circle, componentTest, visualTest } from "../utils";
 
 describe("Leaf", () => {
   componentTest("centered circle", () => new Leaf(circle()).center());
