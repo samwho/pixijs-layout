@@ -1,5 +1,7 @@
+import { expect } from "@jest/globals";
 import * as PIXI from "pixi.js-legacy";
 import fs from "fs";
+import Positioner from "../../src/components/Positioner";
 
 export function circle({
   x,
@@ -9,7 +11,7 @@ export function circle({
   x?: number;
   y?: number;
   radius?: number;
-}): PIXI.Graphics {
+} = {}): PIXI.Graphics {
   let circle = new PIXI.Graphics();
   circle.beginFill(0xff0000);
   circle.drawCircle(x ?? 0, y ?? 0, radius ?? 50);
@@ -29,7 +31,7 @@ export function rect({
   width?: number;
   height?: number;
   center?: boolean;
-}): PIXI.Graphics {
+} = {}): PIXI.Graphics {
   x = x ?? 0;
   y = y ?? 0;
   width = width ?? 50;
@@ -62,4 +64,57 @@ export async function screenshot(app: PIXI.Application | HTMLCanvasElement) {
   let path = `test/screenshots/${name}.png`;
 
   fs.writeFileSync(path, base64, "base64");
+}
+
+export async function visualTest(
+  name: string,
+  cb: (app: PIXI.Application) => Positioner & PIXI.DisplayObject,
+) {
+  it(name, async () => {
+    let screen = new PIXI.Rectangle(0, 0, 800, 600);
+    let canvas: HTMLCanvasElement;
+    let app: PIXI.Application;
+
+    canvas = document.createElement("canvas");
+    canvas.width = screen.width;
+    canvas.height = screen.height;
+    document.body.appendChild(canvas);
+
+    app = new PIXI.Application({
+      autoStart: false,
+      forceCanvas: true,
+      view: canvas,
+      resizeTo: canvas,
+      backgroundColor: 0xffffff,
+    });
+
+    app.renderer.resize(screen.width, screen.height);
+
+    let layout = cb(app);
+    app.stage.addChild(layout);
+    layout.arrange(app.renderer.screen);
+    app.render();
+
+    let testName = expect.getState().currentTestName;
+    if (!testName) {
+      throw new Error("visualTest: no currentTestName");
+    }
+
+    let path = testName.replace(/[^a-z0-9]/gi, "_");
+    path = `test/screenshots/${path}.png`;
+
+    let current = canvas.toDataURL().replace(/^data:image\/png;base64,/, "");
+
+    if (process.env["TEST_UPDATE_SNAPSHOTS"] || fs.existsSync(path) === false) {
+      fs.writeFileSync(path, current, "base64");
+    } else {
+      let existing = fs.readFileSync(path, "base64");
+      if (current !== existing) {
+        throw new Error(`visualTest: ${path} does not match`);
+      }
+    }
+
+    app.destroy();
+    document.body.removeChild(canvas);
+  });
 }

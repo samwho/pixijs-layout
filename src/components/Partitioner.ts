@@ -5,23 +5,22 @@ export default abstract class Partitioner
   extends Container
   implements Positioner
 {
-  debug: boolean = false;
-  center: boolean = true;
-  _group: DisplayObject[];
-  space: Rectangle | null = null;
+  protected _debug: boolean = false;
+  protected _group: DisplayObject[];
+  protected _space: Rectangle | null = null;
 
-  constructor(
-    children: DisplayObject[] = [],
-    { debug, center }: { debug?: boolean; center?: boolean } = {},
-  ) {
+  constructor(...children: DisplayObject[]) {
     super();
-    this.debug = debug ?? this.debug;
-    this.center = center ?? this.center;
     this._group = children;
     this.sortableChildren = true;
     this.zIndex = children
       .map((child) => child.zIndex)
       .reduce((a, b) => Math.min(a, b), Infinity);
+  }
+
+  debug(value?: boolean): this {
+    this._debug = value ?? true;
+    return this;
   }
 
   abstract partition(
@@ -88,13 +87,36 @@ export default abstract class Partitioner
   }
 
   refresh(): void {
-    if (this.space) {
-      this.arrange(this.space);
+    if (this._space) {
+      this.arrange(this._space);
     }
   }
 
   arrange(space: Rectangle) {
-    this.space = space;
+    if (
+      this._space &&
+      this._space.x === space.x &&
+      this._space.y === space.y &&
+      this._space.width === space.width &&
+      this._space.height === space.height
+    ) {
+      let i = 0;
+      for (let partition of this.partition(this._group, space)) {
+        let child = this._group[i];
+        if (!child) {
+          throw new Error("more partitions than children");
+        }
+
+        i += 1;
+
+        if ("arrange" in child && typeof child.arrange === "function") {
+          child.arrange(partition);
+        }
+      }
+      return;
+    }
+
+    this._space = space;
     super.removeChildren();
 
     let i = 0;
@@ -115,7 +137,7 @@ export default abstract class Partitioner
       container.height = partition.height;
       container.zIndex = child.zIndex;
 
-      if (this.debug) {
+      if (this._debug) {
         let dbg = new Graphics();
         dbg.name = "dbg";
         dbg.zIndex = -Infinity;
@@ -125,16 +147,11 @@ export default abstract class Partitioner
         container.addChild(dbg);
       }
 
-      if (this.center) {
-        child.x = partition.width / 2;
-        child.y = partition.height / 2;
-      }
-
       container.addChild(child);
       super.addChild(container);
 
-      if ("debug" in child) {
-        child.debug = this.debug;
+      if ("_debug" in child) {
+        child._debug = this._debug;
       }
 
       if ("arrange" in child && typeof child.arrange === "function") {
