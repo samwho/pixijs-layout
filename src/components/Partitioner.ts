@@ -123,8 +123,6 @@ export default abstract class Partitioner extends Container implements Positione
             if ("arrange" in child && typeof child.arrange === "function") {
                 child.arrange(partition);
             }
-
-            console.log(container);
         }
 
         if (i < this._group.length) {
