@@ -120,8 +120,6 @@ export default class Leaf extends Container implements Positioner {
     let maxHeight = getDimension(this._maxHeight, space.height);
     let minWidth = getDimension(this._minWidth, space.width);
     let minHeight = getDimension(this._minHeight, space.height);
-    let containerAspectRatio = space.width / space.height;
-    let aspectRatio = this._child.width / this._child.height;
 
     let x = 0;
     let y = 0;
@@ -130,6 +128,9 @@ export default class Leaf extends Container implements Positioner {
 
     switch (this._resize) {
       case Resize.Fit:
+        let containerAspectRatio = space.width / space.height;
+        let aspectRatio = this._child.width / this._child.height;
+
         if (containerAspectRatio > aspectRatio) {
           width = space.height * aspectRatio;
           height = space.height;
@@ -158,7 +159,6 @@ export default class Leaf extends Container implements Positioner {
       case Resize.Stretch:
         width = space.width;
         height = space.height;
-
         break;
       case Resize.None:
         width = this._child.width;
@@ -181,25 +181,25 @@ export default class Leaf extends Container implements Positioner {
 
     switch (this._xAlign) {
       case Align.Start:
-        x = space.x;
+        x = 0;
         break;
       case Align.Middle:
-        x = space.x + space.width / 2;
+        x = space.width / 2;
         break;
       case Align.End:
-        x = space.x + space.width - width;
+        x = space.width - width;
         break;
     }
 
     switch (this._yAlign) {
       case Align.Start:
-        y = space.y;
+        y = 0;
         break;
       case Align.Middle:
-        y = space.y + space.height / 2;
+        y = space.height / 2;
         break;
       case Align.End:
-        y = space.y + space.height - height;
+        y = space.height - height;
         break;
     }
 
@@ -210,7 +210,7 @@ export default class Leaf extends Container implements Positioner {
 
     if ("arrange" in this._child) {
       let child = this._child as Positioner;
-      child.arrange(space);
+      child.arrange(this._space);
     }
   }
 }

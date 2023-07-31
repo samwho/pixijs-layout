@@ -93,30 +93,7 @@ export default abstract class Partitioner
   }
 
   arrange(space: Rectangle) {
-    if (
-      this._space &&
-      this._space.x === space.x &&
-      this._space.y === space.y &&
-      this._space.width === space.width &&
-      this._space.height === space.height
-    ) {
-      let i = 0;
-      for (let partition of this.partition(this._group, space)) {
-        let child = this._group[i];
-        if (!child) {
-          throw new Error("more partitions than children");
-        }
-
-        i += 1;
-
-        if ("arrange" in child && typeof child.arrange === "function") {
-          child.arrange(partition);
-        }
-      }
-      return;
-    }
-
-    this._space = space;
+    this._space = space.clone();
     super.removeChildren();
 
     let i = 0;
@@ -155,7 +132,9 @@ export default abstract class Partitioner
       }
 
       if ("arrange" in child && typeof child.arrange === "function") {
-        child.arrange(partition);
+        child.arrange(
+          new Rectangle(point.x, point.y, partition.width, partition.height),
+        );
       }
     }
 
