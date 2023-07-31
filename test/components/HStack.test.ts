@@ -1,10 +1,38 @@
-import { Application, Container } from "pixi.js-legacy";
+import { Application, Container, Rectangle } from "pixi.js-legacy";
 import HStack from "../../src/components/HStack";
+import { screenshot } from "./utils";
+
+let screen = new Rectangle(0, 0, 100, 100);
+let canvas: HTMLCanvasElement;
+let app: Application;
+
+beforeEach(() => {
+  canvas = document.createElement("canvas");
+  canvas.width = screen.width;
+  canvas.height = screen.height;
+  document.body.appendChild(canvas);
+
+  app = new Application({
+    autoStart: false,
+    forceCanvas: true,
+    view: canvas,
+    resizeTo: canvas,
+    backgroundColor: 0xffffff,
+  });
+
+  app.renderer.resize(screen.width, screen.height);
+});
+
+afterEach(async () => {
+  app.render();
+  await screenshot(canvas);
+  app.destroy();
+  document.body.removeChild(canvas);
+});
 
 describe("HStack", () => {
   it.each([
     {
-      screen: [100, 100],
       splits: 2,
       spacing: 0,
       expected: [
@@ -13,7 +41,6 @@ describe("HStack", () => {
       ],
     },
     {
-      screen: [100, 100],
       splits: 3,
       spacing: 0,
       expected: [
@@ -23,7 +50,6 @@ describe("HStack", () => {
       ],
     },
     {
-      screen: [100, 100],
       splits: 4,
       spacing: 0,
       expected: [
@@ -34,7 +60,6 @@ describe("HStack", () => {
       ],
     },
     {
-      screen: [100, 100],
       splits: 2,
       spacing: 10,
       expected: [
@@ -43,7 +68,6 @@ describe("HStack", () => {
       ],
     },
     {
-      screen: [100, 100],
       splits: 3,
       spacing: 10,
       expected: [
@@ -53,7 +77,6 @@ describe("HStack", () => {
       ],
     },
     {
-      screen: [100, 100],
       splits: 4,
       spacing: 10,
       expected: [
@@ -66,22 +89,17 @@ describe("HStack", () => {
   ])(
     "splits: $splits, spacing: $spacing",
     ({
-      screen,
       splits,
       spacing,
       expected,
     }: {
-      screen: number[];
       spacing: number;
       splits: number;
       expected: number[][];
     }) => {
-      let app = new Application({ autoStart: false });
-      app.renderer.resize(screen[0]!, screen[1]!);
-
       let stack = new HStack(
         Array.from({ length: splits }, () => new Container()),
-        { spacing },
+        { spacing, debug: true },
       );
       app.stage.addChild(stack);
 

@@ -5,7 +5,8 @@
   "main": "src/index.js",
   "scripts": {
     "build": "npx tsc",
-    "test": "npx jest"
+    "test": "npx jest",
+    "test:debug": "open -a \"Google Chrome\" chrome://inspect && node --nolazy --inspect-brk ./node_modules/jest/bin/jest.js --runInBand --colors --verbose"
   },
   "keywords": [],
   "author": "Sam Rose",
@@ -13,8 +14,8 @@
   "devDependencies": {
     "@mapbox/node-pre-gyp": "^1.0.11",
     "@types/jest": "^29.5.3",
+    "canvas": "^2.11.2",
     "jest": "^29.6",
-    "jest-canvas-mock": "^2.5.2",
     "jest-environment-jsdom": "^29.6.2",
     "prettier": "3.0.0",
     "ts-jest": "^29.1.1",
