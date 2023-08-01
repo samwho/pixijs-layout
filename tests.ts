@@ -10,6 +10,40 @@ componentTest("1x3-hstack", () =>
   HStack(new Container(), new Container(), new Container()).debug(),
 );
 
+componentTest("1x3-circles", () =>
+  HStack(circle(), circle(), circle()).leaves((leaf) =>
+    leaf.fit().padding("5%"),
+  ),
+);
+
+componentTest("3x1-circles", () =>
+  VStack(circle(), circle(), circle()).leaves((leaf) =>
+    leaf.fit().padding("5%"),
+  ),
+);
+
+componentTest("3x3-circles", () =>
+  VStack(
+    HStack(circle(), circle(), circle()),
+    HStack(circle(), circle(), circle()),
+    HStack(circle(), circle(), circle()),
+  ).leaves((leaf) => leaf.fit().padding("5%")),
+);
+
+componentTest("3x3-circles-grid", () =>
+  Grid(
+    circle(),
+    circle(),
+    circle(),
+    circle(),
+    circle(),
+    circle(),
+    circle(),
+    circle(),
+    circle(),
+  ).leaves((leaf) => leaf.fit().padding("5%")),
+);
+
 componentTest("1x4-hstack", () =>
   HStack(
     new Container(),
@@ -179,4 +213,24 @@ componentTest("proportioned-hstack", () =>
     .debug()
     .proportions(1, 2, 1)
     .leaves((leaf) => leaf.fit()),
+);
+
+componentTest("complex-debug", () =>
+  Grid(
+    HStack(circle(), circle()),
+    VStack(circle(), HStack(circle(), circle())),
+    Grid(
+      circle(),
+      circle(),
+      circle(),
+      Grid(circle(), circle(), circle(), circle()),
+    ),
+    Stack(
+      Stack(circle(), circle(), circle()),
+      Stack(circle(), circle(), circle()),
+      Stack(circle(), circle(), circle()),
+    ),
+  )
+    .debug()
+    .leaves((leaf) => leaf.fit().padding("10%")),
 );
