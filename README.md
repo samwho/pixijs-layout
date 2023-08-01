@@ -1,5 +1,7 @@
 # pixijs-layout
 
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/samwho/pixijs-layout/blob/main/LICENSE) [![npm version](https://img.shields.io/npm/v/pixijs-layout.svg?style=flat)](https://www.npmjs.com/package/pixijs-layout)
+
 This library is designed to make laying out elements on a canvas very easy.
 I've been using PixiJS to write visual explanations of programming concepts
 over at <https://samwho.dev>, and this library tailors specifically to my
