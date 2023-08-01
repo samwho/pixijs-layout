@@ -1,5 +1,5 @@
 import { Container } from "pixi.js-legacy";
-import { HStack, VStack } from "../src";
+import { Grid, HStack, VStack } from "../src";
 import { componentTest, circle } from "./utils";
 
 componentTest("1x2-hstack", () =>
@@ -55,6 +55,22 @@ componentTest("3-levels-nesting-circles-centered", () =>
       VStack(circle(), circle(), circle()),
       VStack(circle(), circle(), circle()),
     ),
+  )
+    .debug()
+    .leaves((leaf) => leaf.center()),
+);
+
+componentTest("9-item-grid-circles-centered", () =>
+  Grid(
+    circle(),
+    circle(),
+    circle(),
+    circle(),
+    circle(),
+    circle(),
+    circle(),
+    circle(),
+    circle(),
   )
     .debug()
     .leaves((leaf) => leaf.center()),
