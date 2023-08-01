@@ -7,6 +7,7 @@ const config: Config = {
   moduleFileExtensions: ["ts", "js"],
   collectCoverage: true,
   collectCoverageFrom: ["src/**/*.ts"],
+  coverageReporters: ["text", "html", "json-summary"],
 };
 
 export default config;
