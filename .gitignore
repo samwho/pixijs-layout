@@ -1,8 +1,6 @@
 # Created by https://www.toptal.com/developers/gitignore/api/visualstudiocode,node,macos
 # Edit at https://www.toptal.com/developers/gitignore?templates=visualstudiocode,node,macos
 
-out/
-
 ### macOS ###
 # General
 .DS_Store
@@ -124,7 +122,6 @@ web_modules/
 
 # Next.js build output
 .next
-out
 
 # Nuxt.js build / generate output
 .nuxt
