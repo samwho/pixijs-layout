@@ -1,6 +1,6 @@
 import { Container } from "pixi.js-legacy";
 import { Grid, HStack, Stack, VStack } from "./src";
-import { componentTest, circle, visualTest } from "./test-utils";
+import { componentTest, circle, appTest } from "./test-utils";
 
 componentTest("1x2-hstack", () =>
   HStack(new Container(), new Container()).debug(),
@@ -80,14 +80,14 @@ componentTest("3-levels-nesting-circles-centered", () =>
     .leaves((leaf) => leaf.center()),
 );
 
-visualTest("stack-horizontal-when-width-gt-height", (app) => {
+appTest("stack-horizontal-when-width-gt-height", (app) => {
   app.renderer.resize(400, 200);
   let stack = Stack(new Container(), new Container(), new Container()).debug();
   app.stage.addChild(stack);
   stack.arrange(app.screen);
 });
 
-visualTest("stack-vertical-when-height-gt-width", (app) => {
+appTest("stack-vertical-when-height-gt-width", (app) => {
   app.renderer.resize(200, 400);
   let stack = Stack(new Container(), new Container(), new Container()).debug();
   app.stage.addChild(stack);

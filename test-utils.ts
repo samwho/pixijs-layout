@@ -50,7 +50,7 @@ export function rect({
   return rect;
 }
 
-export function visualTest(name: string, cb: (app: PIXI.Application) => void) {
+export function appTest(name: string, cb: (app: PIXI.Application) => void) {
   it(name, async () => {
     let canvas = document.createElement("canvas");
     canvas.width = 800;
@@ -98,7 +98,7 @@ export async function componentTest(
   name: string,
   cb: (app: PIXI.Application) => Positioner & PIXI.DisplayObject,
 ) {
-  visualTest(name, (app) => {
+  appTest(name, (app) => {
     let layout = cb(app);
     app.stage.addChild(layout);
     layout.arrange(app.renderer.screen);
