@@ -1,11 +1,11 @@
 import { DisplayObject, Rectangle } from "pixi.js-legacy";
 import Partitioner from "./Partitioner";
 
-export default function VStack(...objects: DisplayObject[]): VStackComponent {
+export function VStack(...objects: DisplayObject[]): VStackComponent {
   return new VStackComponent(...objects);
 }
 
-class VStackComponent extends Partitioner {
+export class VStackComponent extends Partitioner {
   private _spacing: number = 0;
 
   spacing(value: number): this {

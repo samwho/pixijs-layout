@@ -1,5 +1,5 @@
 import { circle, componentTest } from "../utils";
-import { HStack, VStack, Leaf } from "../../src";
+import { HStack, VStack } from "../../src";
 import { Container } from "pixi.js-legacy";
 
 describe("Composite", () => {
@@ -13,22 +13,12 @@ describe("Composite", () => {
 
   componentTest("Grid of leaves", () =>
     VStack(
-      HStack(
-        Leaf(circle()).center(),
-        Leaf(circle()).center(),
-        Leaf(circle()).center(),
-      ),
-      HStack(
-        Leaf(circle()).center(),
-        Leaf(circle()).center(),
-        Leaf(circle()).center(),
-      ),
-      HStack(
-        Leaf(circle()).center(),
-        Leaf(circle()).center(),
-        Leaf(circle()).center(),
-      ),
-    ).debug(),
+      HStack(circle(), circle(), circle()),
+      HStack(circle(), circle(), circle()),
+      HStack(circle(), circle(), circle()),
+    )
+      .debug()
+      .leaves((leaf) => leaf.center()),
   );
 
   componentTest("Grid of circles", () =>
@@ -42,39 +32,17 @@ describe("Composite", () => {
   componentTest("3 levels of nesting", () =>
     VStack(
       HStack(
-        VStack(
-          Leaf(circle()).center(),
-          Leaf(circle()).center(),
-          Leaf(circle()).center(),
-        ),
-        VStack(
-          Leaf(circle()).center(),
-          Leaf(circle()).center(),
-          Leaf(circle()).center(),
-        ),
-        VStack(
-          Leaf(circle()).center(),
-          Leaf(circle()).center(),
-          Leaf(circle()).center(),
-        ),
+        VStack(circle(), circle(), circle()),
+        VStack(circle(), circle(), circle()),
+        VStack(circle(), circle(), circle()),
       ),
       HStack(
-        VStack(
-          Leaf(circle()).center(),
-          Leaf(circle()).center(),
-          Leaf(circle()).center(),
-        ),
-        VStack(
-          Leaf(circle()).center(),
-          Leaf(circle()).center(),
-          Leaf(circle()).center(),
-        ),
-        VStack(
-          Leaf(circle()).center(),
-          Leaf(circle()).center(),
-          Leaf(circle()).center(),
-        ),
+        VStack(circle(), circle(), circle()),
+        VStack(circle(), circle(), circle()),
+        VStack(circle(), circle(), circle()),
       ),
-    ).debug(),
+    )
+      .debug()
+      .leaves((leaf) => leaf.center()),
   );
 });
