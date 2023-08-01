@@ -1,6 +1,6 @@
 # pixijs-layout
 
-[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/samwho/pixijs-layout/blob/main/LICENSE) [![npm version](https://img.shields.io/npm/v/pixijs-layout.svg?style=flat)](https://www.npmjs.com/package/pixijs-layout)
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/samwho/pixijs-layout/blob/main/LICENSE) [![npm version](https://img.shields.io/npm/v/pixijs-layout.svg?style=flat)](https://www.npmjs.com/package/pixijs-layout) [![Build status](https://github.com/samwho/pixijs-layout/workflows/Test/badge.svg)](https://github.com/samwho/pixijs-layout/actions)
 
 This library is designed to make laying out elements on a canvas very easy.
 I've been using PixiJS to write visual explanations of programming concepts
