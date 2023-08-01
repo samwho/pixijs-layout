@@ -1,6 +1,6 @@
 import { Container } from "pixi.js-legacy";
 import { Grid, HStack, Stack, VStack } from "./src";
-import { componentTest, circle, appTest } from "./test-utils";
+import { componentTest, circle, appTest, rect } from "./test-utils";
 
 componentTest("1x2-hstack", () =>
   HStack(new Container(), new Container()).debug(),
@@ -20,6 +20,37 @@ componentTest("3x1-circles", () =>
   VStack(circle(), circle(), circle()).leaves((leaf) =>
     leaf.fit().padding("5%"),
   ),
+);
+
+componentTest("adding-removing-leaves", () => {
+  let component = HStack(circle(), circle(), circle()).debug();
+  component.addChild(circle());
+  component.removeChildAt(0);
+  return component;
+});
+
+componentTest("leaf-center-left", () =>
+  HStack(rect(), rect(), rect())
+    .debug()
+    .leaves((leaf) => leaf.center().left()),
+);
+
+componentTest("leaf-center-right", () =>
+  HStack(rect(), rect(), rect())
+    .debug()
+    .leaves((leaf) => leaf.center().right()),
+);
+
+componentTest("leaf-center-top", () =>
+  HStack(rect(), rect(), rect())
+    .debug()
+    .leaves((leaf) => leaf.center().top()),
+);
+
+componentTest("leaf-center-bottom", () =>
+  HStack(rect(), rect(), rect())
+    .debug()
+    .leaves((leaf) => leaf.center().bottom()),
 );
 
 componentTest("3x3-circles", () =>

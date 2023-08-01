@@ -1,6 +1,6 @@
 import { Container, DisplayObject, Graphics, Rectangle } from "pixi.js";
 import Positioner from "./Positioner";
-import { LeafComponent } from "./Leaf";
+import { Leaf, LeafComponent } from "./Leaf";
 
 export default abstract class Partitioner
   extends Container
@@ -28,7 +28,7 @@ export default abstract class Partitioner
       } else if (child instanceof LeafComponent) {
         this._group[i] = fn(child);
       } else if (child instanceof Container) {
-        this._group[i] = fn(new LeafComponent(child));
+        this._group[i] = fn(Leaf(child));
       }
       i += 1;
     }
