@@ -92,8 +92,7 @@ export function visualTest(name: string, cb: (app: PIXI.Application) => void) {
       throw new Error("visualTest: no currentTestName");
     }
 
-    let path = testName.replace(/[^a-z0-9]/gi, "_");
-    path = `test/screenshots/${path}.png`;
+    let path = `test/screenshots/${name}.png`;
 
     let current = canvas.toDataURL().replace(/^data:image\/png;base64,/, "");
 
