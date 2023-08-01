@@ -15,7 +15,11 @@ enum Align {
   None,
 }
 
-export default class Leaf extends Container implements Positioner {
+export default function Leaf(child: Container): LeafComponent {
+  return new LeafComponent(child);
+}
+
+class LeafComponent extends Container implements Positioner {
   _child: Container;
   _space: Rectangle = new Rectangle();
 

@@ -1,7 +1,11 @@
 import { DisplayObject, Rectangle } from "pixi.js-legacy";
 import Partitioner from "./Partitioner";
 
-export default class HStack extends Partitioner {
+export default function HStack(...objects: DisplayObject[]): HStackComponent {
+  return new HStackComponent(...objects);
+}
+
+class HStackComponent extends Partitioner {
   private _spacing: number = 0;
 
   spacing(value: number): this {

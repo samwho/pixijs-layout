@@ -1,22 +1,22 @@
-import Leaf from "../../src/components/Leaf";
+import { Leaf } from "../../src";
 import { circle, componentTest, visualTest } from "../utils";
 
 describe("Leaf", () => {
-  componentTest("centered circle", () => new Leaf(circle()).center());
-  componentTest("left circle", () => new Leaf(circle()).center().left());
+  componentTest("centered circle", () => Leaf(circle()).center());
+  componentTest("left circle", () => Leaf(circle()).center().left());
 
-  componentTest("fit centered circle", () => new Leaf(circle()).fit().center());
+  componentTest("fit centered circle", () => Leaf(circle()).fit().center());
 
   componentTest("fit stretched circle", () =>
-    new Leaf(circle()).stretch().center(),
+    Leaf(circle()).stretch().center(),
   );
 
   componentTest("fit stretched circle with max width", () =>
-    new Leaf(circle()).stretch().center().maxWidth(100),
+    Leaf(circle()).stretch().center().maxWidth(100),
   );
 
   visualTest("fit stretched circle, resized", (app) => {
-    let layout = new Leaf(circle()).stretch().center();
+    let layout = Leaf(circle()).stretch().center();
     app.stage.addChild(layout);
     layout.arrange(app.screen);
 
