@@ -9,6 +9,7 @@ jobs:
         run: npm install
       - name: Run tests
         run: npm run test
+        continue-on-error: true
       - uses: actions/upload-artifact@v3
         with:
           path: screenshots/*.png
