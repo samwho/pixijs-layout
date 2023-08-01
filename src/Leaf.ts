@@ -127,8 +127,8 @@ export class LeafComponent extends Container implements Positioner {
     let minWidth = getDimension(this._minWidth, space.width);
     let minHeight = getDimension(this._minHeight, space.height);
 
-    let x = 0;
-    let y = 0;
+    let x = space.x;
+    let y = space.y;
     let width = 0;
     let height = 0;
 
@@ -187,25 +187,25 @@ export class LeafComponent extends Container implements Positioner {
 
     switch (this._xAlign) {
       case Align.Start:
-        x = 0;
+        x = space.x;
         break;
       case Align.Middle:
-        x = space.width / 2;
+        x = space.x + space.width / 2;
         break;
       case Align.End:
-        x = space.width - width;
+        x = space.x + space.width - width;
         break;
     }
 
     switch (this._yAlign) {
       case Align.Start:
-        y = 0;
+        y = space.y;
         break;
       case Align.Middle:
-        y = space.height / 2;
+        y = space.y + space.height / 2;
         break;
       case Align.End:
-        y = space.height - height;
+        y = space.y + space.height - height;
         break;
     }
 

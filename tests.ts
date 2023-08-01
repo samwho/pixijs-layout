@@ -122,6 +122,26 @@ componentTest("8-item-grid-circles-stretch", () =>
   ).leaves((leaf) => leaf.stretch()),
 );
 
+componentTest("4x4-grid-in-grid", () =>
+  Grid(
+    circle(),
+    circle(),
+    circle(),
+    Grid(circle(), circle(), circle(), circle()),
+  ).leaves((leaf) => leaf.fit()),
+);
+
+componentTest("4x4-grid-in-grid-with-padding", () =>
+  Grid(
+    circle(),
+    circle(),
+    circle(),
+    Grid(circle(), circle(), circle(), circle()),
+  )
+    .debug()
+    .leaves((leaf) => leaf.fit().padding(10)),
+);
+
 componentTest("proportioned-vstack", () =>
   VStack(circle(), circle(), circle())
     .debug()
