@@ -1,6 +1,5 @@
-import { HStack } from "./HStack";
-import { VStack } from "./VStack";
+import { HStack, VStack, Stack } from "./Stack";
 import { Leaf } from "./Leaf";
 import { Grid } from "./Grid";
 
-export { HStack, VStack, Leaf, Grid };
+export { Stack, HStack, VStack, Leaf, Grid };

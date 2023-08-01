@@ -1,6 +1,6 @@
 import { Container } from "pixi.js-legacy";
-import { Grid, HStack, VStack } from "./src";
-import { componentTest, circle } from "./test-utils";
+import { Grid, HStack, Stack, VStack } from "./src";
+import { componentTest, circle, visualTest } from "./test-utils";
 
 componentTest("1x2-hstack", () =>
   HStack(new Container(), new Container()).debug(),
@@ -80,6 +80,20 @@ componentTest("3-levels-nesting-circles-centered", () =>
     .leaves((leaf) => leaf.center()),
 );
 
+visualTest("stack-horizontal-when-width-gt-height", (app) => {
+  app.renderer.resize(400, 200);
+  let stack = Stack(new Container(), new Container(), new Container()).debug();
+  app.stage.addChild(stack);
+  stack.arrange(app.screen);
+});
+
+visualTest("stack-vertical-when-height-gt-width", (app) => {
+  app.renderer.resize(200, 400);
+  let stack = Stack(new Container(), new Container(), new Container()).debug();
+  app.stage.addChild(stack);
+  stack.arrange(app.screen);
+});
+
 componentTest("9-item-grid-circles-centered", () =>
   Grid(
     circle(),
@@ -140,6 +154,17 @@ componentTest("4x4-grid-in-grid-with-padding", () =>
   )
     .debug()
     .leaves((leaf) => leaf.fit().padding(10)),
+);
+
+componentTest("4x4-grid-in-grid-with-percent-padding", () =>
+  Grid(
+    circle(),
+    circle(),
+    circle(),
+    Grid(circle(), circle(), circle(), circle()),
+  )
+    .debug()
+    .leaves((leaf) => leaf.fit().padding("10%")),
 );
 
 componentTest("proportioned-vstack", () =>
