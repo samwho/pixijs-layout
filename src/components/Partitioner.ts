@@ -1,4 +1,4 @@
-import { Container, DisplayObject, Graphics, Point, Rectangle } from "pixi.js";
+import { Container, DisplayObject, Graphics, Rectangle } from "pixi.js";
 import Positioner from "./Positioner";
 
 export default abstract class Partitioner
@@ -105,11 +105,9 @@ export default abstract class Partitioner
 
       i += 1;
 
-      let point = this.toLocal(new Point(partition.x, partition.y));
-
       let container = new Container();
-      container.x = point.x;
-      container.y = point.y;
+      container.x = partition.x;
+      container.y = partition.y;
       container.width = partition.width;
       container.height = partition.height;
       container.zIndex = child.zIndex;
@@ -132,9 +130,7 @@ export default abstract class Partitioner
       }
 
       if ("arrange" in child && typeof child.arrange === "function") {
-        child.arrange(
-          new Rectangle(point.x, point.y, partition.width, partition.height),
-        );
+        child.arrange(new Rectangle(0, 0, partition.width, partition.height));
       }
     }
 

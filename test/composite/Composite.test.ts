@@ -19,17 +19,17 @@ describe("Composite", () => {
         new Leaf(circle()).center(),
         new Leaf(circle()).center(),
         new Leaf(circle()).center(),
-      ).debug(),
+      ),
       new HStack(
         new Leaf(circle()).center(),
         new Leaf(circle()).center(),
         new Leaf(circle()).center(),
-      ).debug(),
+      ),
       new HStack(
         new Leaf(circle()).center(),
         new Leaf(circle()).center(),
         new Leaf(circle()).center(),
-      ).debug(),
+      ),
     ).debug(),
   );
 
@@ -38,6 +38,45 @@ describe("Composite", () => {
       new HStack(circle(), circle(), circle()),
       new HStack(circle(), circle(), circle()),
       new HStack(circle(), circle(), circle()),
+    ).debug(),
+  );
+
+  componentTest("3 levels of nesting", () =>
+    new VStack(
+      new HStack(
+        new VStack(
+          new Leaf(circle()).center(),
+          new Leaf(circle()).center(),
+          new Leaf(circle()).center(),
+        ),
+        new VStack(
+          new Leaf(circle()).center(),
+          new Leaf(circle()).center(),
+          new Leaf(circle()).center(),
+        ),
+        new VStack(
+          new Leaf(circle()).center(),
+          new Leaf(circle()).center(),
+          new Leaf(circle()).center(),
+        ),
+      ),
+      new HStack(
+        new VStack(
+          new Leaf(circle()).center(),
+          new Leaf(circle()).center(),
+          new Leaf(circle()).center(),
+        ),
+        new VStack(
+          new Leaf(circle()).center(),
+          new Leaf(circle()).center(),
+          new Leaf(circle()).center(),
+        ),
+        new VStack(
+          new Leaf(circle()).center(),
+          new Leaf(circle()).center(),
+          new Leaf(circle()).center(),
+        ),
+      ),
     ).debug(),
   );
 });
