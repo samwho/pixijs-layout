@@ -2,14 +2,18 @@ name: Test
 on: push
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v3
       - name: Install modules
         run: npm install
       - name: Run tests
+        id: test
         run: npm run test
         continue-on-error: true
       - uses: actions/upload-artifact@v3
         with:
           path: screenshots/*.png
+      - name: Fail
+        if: steps.test.outcome == 'failure'
+        run: exit 1
