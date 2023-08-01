@@ -73,6 +73,30 @@ componentTest("leaf-min-height", () =>
   HStack(rect({ width: 10, height: 10 })).leaves((leaf) => leaf.minHeight(100)),
 );
 
+componentTest("leaf-fit-max-height", () =>
+  HStack(rect({ width: 1000, height: 1000, center: true })).leaves((leaf) =>
+    leaf.fit().maxHeight(300),
+  ),
+);
+
+componentTest("leaf-fit-max-width", () =>
+  HStack(rect({ width: 1000, height: 1000, center: true })).leaves((leaf) =>
+    leaf.fit().maxWidth(300),
+  ),
+);
+
+componentTest("leaf-fit-min-height", () =>
+  HStack(rect({ width: 10, height: 10, center: true })).leaves((leaf) =>
+    leaf.fit().minHeight(300),
+  ),
+);
+
+componentTest("leaf-fit-min-width", () =>
+  HStack(rect({ width: 10, height: 10, center: true })).leaves((leaf) =>
+    leaf.fit().minWidth(300),
+  ),
+);
+
 componentTest("3x3-circles", () =>
   VStack(
     HStack(circle(), circle(), circle()),
