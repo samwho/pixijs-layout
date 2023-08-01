@@ -95,3 +95,29 @@ componentTest("9-item-grid-circles-centered", () =>
     .debug()
     .leaves((leaf) => leaf.center()),
 );
+
+componentTest("8-item-grid-circles-fit", () =>
+  Grid(
+    circle(),
+    circle(),
+    circle(),
+    circle(),
+    circle(),
+    circle(),
+    circle(),
+    circle(),
+  ).leaves((leaf) => leaf.fit()),
+);
+
+componentTest("8-item-grid-circles-stretch", () =>
+  Grid(
+    circle(),
+    circle(),
+    circle(),
+    circle(),
+    circle(),
+    circle(),
+    circle(),
+    circle(),
+  ).leaves((leaf) => leaf.stretch()),
+);
