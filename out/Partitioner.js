@@ -24,7 +24,7 @@ class Partitioner extends pixi_js_1.Container {
                 this._group[i] = fn(child);
             }
             else if (child instanceof pixi_js_1.Container) {
-                this._group[i] = fn(new Leaf_1.LeafComponent(child));
+                this._group[i] = fn((0, Leaf_1.Leaf)(child));
             }
             i += 1;
         }

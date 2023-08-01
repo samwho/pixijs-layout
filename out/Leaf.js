@@ -103,14 +103,16 @@ class LeafComponent extends pixi_js_legacy_1.Container {
         let maxHeight = (0, utils_1.getDimension)(this._maxHeight, space.height);
         let minWidth = (0, utils_1.getDimension)(this._minWidth, space.width);
         let minHeight = (0, utils_1.getDimension)(this._minHeight, space.height);
-        let x = space.x;
-        let y = space.y;
-        let width = 0;
-        let height = 0;
+        let x = this._child.x;
+        let y = this._child.y;
+        let width = this._child.width;
+        let height = this._child.height;
+        let containerAspectRatio = space.width / space.height;
+        let aspectRatio = width / height;
         switch (this._resize) {
             case Resize.Fit:
-                let containerAspectRatio = space.width / space.height;
-                let aspectRatio = this._child.width / this._child.height;
+                x = space.x;
+                y = space.y;
                 if (containerAspectRatio > aspectRatio) {
                     width = space.height * aspectRatio;
                     height = space.height;
@@ -119,43 +121,29 @@ class LeafComponent extends pixi_js_legacy_1.Container {
                     height = space.width * aspectRatio;
                     width = space.width;
                 }
-                if (width > maxWidth) {
-                    width = maxWidth;
-                    height = maxWidth * aspectRatio;
-                }
-                if (height > maxHeight) {
-                    height = maxHeight;
-                    width = maxHeight * aspectRatio;
-                }
-                if (width < minWidth) {
-                    width = minWidth;
-                    height = minWidth * aspectRatio;
-                }
-                if (height < minHeight) {
-                    height = minHeight;
-                    width = minHeight * aspectRatio;
-                }
                 break;
             case Resize.Stretch:
+                x = space.x;
+                y = space.y;
                 width = space.width;
                 height = space.height;
-                break;
-            case Resize.None:
-                width = this._child.width;
-                height = this._child.height;
                 break;
         }
         if (width > maxWidth) {
             width = maxWidth;
+            height = maxWidth * aspectRatio;
         }
         if (height > maxHeight) {
             height = maxHeight;
+            width = maxHeight * aspectRatio;
         }
         if (width < minWidth) {
             width = minWidth;
+            height = minWidth * aspectRatio;
         }
         if (height < minHeight) {
             height = minHeight;
+            width = minHeight * aspectRatio;
         }
         switch (this._xAlign) {
             case Align.Start:
