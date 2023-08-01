@@ -90,11 +90,13 @@ export class LeafComponent extends Container implements Positioner {
   }
 
   fit(): this {
+    this.center();
     this._resize = Resize.Fit;
     return this;
   }
 
   stretch(): this {
+    this.center();
     this._resize = Resize.Stretch;
     return this;
   }

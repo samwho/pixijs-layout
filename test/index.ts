@@ -35,6 +35,26 @@ componentTest("3x3-vstack-hstack-circles-centered", () =>
     .leaves((leaf) => leaf.center()),
 );
 
+componentTest("3x3-vstack-hstack-circles-fit", () =>
+  VStack(
+    HStack(circle(), circle(), circle()),
+    HStack(circle(), circle(), circle()),
+    HStack(circle(), circle(), circle()),
+  )
+    .debug()
+    .leaves((leaf) => leaf.fit()),
+);
+
+componentTest("3x3-vstack-hstack-circles-stretch", () =>
+  VStack(
+    HStack(circle(), circle(), circle()),
+    HStack(circle(), circle(), circle()),
+    HStack(circle(), circle(), circle()),
+  )
+    .debug()
+    .leaves((leaf) => leaf.stretch()),
+);
+
 componentTest("3x3-vstack-hstack-circles", () =>
   VStack(
     HStack(circle(), circle(), circle()),
