@@ -1,6 +1,6 @@
 import { Container } from "pixi.js-legacy";
-import { Grid, HStack, VStack } from "../src";
-import { componentTest, circle } from "./utils";
+import { Grid, HStack, VStack } from "./src";
+import { componentTest, circle } from "./test-utils";
 
 componentTest("1x2-hstack", () =>
   HStack(new Container(), new Container()).debug(),
@@ -120,4 +120,18 @@ componentTest("8-item-grid-circles-stretch", () =>
     circle(),
     circle(),
   ).leaves((leaf) => leaf.stretch()),
+);
+
+componentTest("proportioned-vstack", () =>
+  VStack(circle(), circle(), circle())
+    .debug()
+    .proportions(1, 2, 1)
+    .leaves((leaf) => leaf.fit()),
+);
+
+componentTest("proportioned-hstack", () =>
+  HStack(circle(), circle(), circle())
+    .debug()
+    .proportions(1, 2, 1)
+    .leaves((leaf) => leaf.fit()),
 );

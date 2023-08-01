@@ -1,6 +1,6 @@
-import { HStack } from "./components/HStack";
-import { VStack } from "./components/VStack";
-import { Leaf } from "./components/Leaf";
-import { Grid } from "./components/Grid";
+import { HStack } from "./HStack";
+import { VStack } from "./VStack";
+import { Leaf } from "./Leaf";
+import { Grid } from "./Grid";
 
 export { HStack, VStack, Leaf, Grid };
