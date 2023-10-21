@@ -1,4 +1,4 @@
-import { Container, DisplayObject, Rectangle } from "pixi.js";
+import { Container, DisplayObject, Rectangle } from "pixi.js-legacy";
 import Positioner from "./Positioner";
 import { LeafComponent } from "./Leaf";
 export default abstract class Partitioner extends Container implements Positioner {

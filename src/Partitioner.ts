@@ -1,4 +1,4 @@
-import { Container, DisplayObject, Graphics, Rectangle } from "pixi.js";
+import { Container, DisplayObject, Graphics, Rectangle } from "pixi.js-legacy";
 import Positioner from "./Positioner";
 import { Leaf, LeafComponent } from "./Leaf";
 

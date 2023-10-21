@@ -105,6 +105,23 @@ componentTest("3x3-circles", () =>
   ).leaves((leaf) => leaf.fit().padding("5%")),
 );
 
+componentTest("12x3-circles", () =>
+  VStack(
+    HStack(circle(), circle(), circle()),
+    HStack(circle(), circle(), circle()),
+    HStack(circle(), circle(), circle()),
+    HStack(circle(), circle(), circle()),
+    HStack(circle(), circle(), circle()),
+    HStack(circle(), circle(), circle()),
+    HStack(circle(), circle(), circle()),
+    HStack(circle(), circle(), circle()),
+    HStack(circle(), circle(), circle()),
+    HStack(circle(), circle(), circle()),
+    HStack(circle(), circle(), circle()),
+    HStack(circle(), circle(), circle()),
+  ).leaves((leaf) => leaf.fit()),
+);
+
 componentTest("3x3-circles-grid", () =>
   Grid(
     circle(),

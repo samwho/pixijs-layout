@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const pixi_js_1 = require("pixi.js");
+const pixi_js_legacy_1 = require("pixi.js-legacy");
 const Leaf_1 = require("./Leaf");
-class Partitioner extends pixi_js_1.Container {
+class Partitioner extends pixi_js_legacy_1.Container {
     constructor(...children) {
         super();
         this._debug = false;
@@ -23,7 +23,7 @@ class Partitioner extends pixi_js_1.Container {
             else if (child instanceof Leaf_1.LeafComponent) {
                 this._group[i] = fn(child);
             }
-            else if (child instanceof pixi_js_1.Container) {
+            else if (child instanceof pixi_js_legacy_1.Container) {
                 this._group[i] = fn((0, Leaf_1.Leaf)(child));
             }
             i += 1;
@@ -93,14 +93,14 @@ class Partitioner extends pixi_js_1.Container {
                 throw new Error("more partitions than children");
             }
             i += 1;
-            let container = new pixi_js_1.Container();
+            let container = new pixi_js_legacy_1.Container();
             container.x = partition.x;
             container.y = partition.y;
             container.width = partition.width;
             container.height = partition.height;
             container.zIndex = child.zIndex;
             if (this._debug) {
-                let dbg = new pixi_js_1.Graphics();
+                let dbg = new pixi_js_legacy_1.Graphics();
                 dbg.name = "dbg";
                 dbg.zIndex = -Infinity;
                 dbg.beginFill(0x000000, 0.05);
@@ -114,7 +114,7 @@ class Partitioner extends pixi_js_1.Container {
                 child._debug = this._debug;
             }
             if ("arrange" in child && typeof child.arrange === "function") {
-                child.arrange(new pixi_js_1.Rectangle(0, 0, partition.width, partition.height));
+                child.arrange(new pixi_js_legacy_1.Rectangle(0, 0, partition.width, partition.height));
             }
         }
         if (i < this._group.length) {
