@@ -13,6 +13,14 @@ class Partitioner extends pixi_js_legacy_1.Container {
             .map((child) => child.zIndex)
             .reduce((a, b) => Math.min(a, b), Infinity);
     }
+    _isContainer(obj) {
+        // For whatever reason, when I do `obj instanceof Container`, it returns
+        // true in my tests but false when I import this library into another
+        // project. I spent time looking into it and concluded that there seemed
+        // to be 2 instances of pixi.js classes being loaded, one from .js files
+        // and the other from .mjs files. I never got to the bottom of this.
+        return "width" in obj && "height" in obj;
+    }
     leaves(fn) {
         let i = 0;
         for (let _ of this._group) {
@@ -23,7 +31,7 @@ class Partitioner extends pixi_js_legacy_1.Container {
             else if (child instanceof Leaf_1.LeafComponent) {
                 this._group[i] = fn(child);
             }
-            else if (child instanceof pixi_js_legacy_1.Container) {
+            else if (this._isContainer(child)) {
                 this._group[i] = fn((0, Leaf_1.Leaf)(child));
             }
             i += 1;

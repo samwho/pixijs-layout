@@ -6,6 +6,7 @@ export default abstract class Partitioner extends Container implements Positione
     protected _group: DisplayObject[];
     protected _space: Rectangle | null;
     constructor(...children: DisplayObject[]);
+    private _isContainer;
     leaves(fn: (l: LeafComponent) => LeafComponent): this;
     debug(value?: boolean): this;
     abstract partition(objects: DisplayObject[], space: Rectangle): IterableIterator<Rectangle>;

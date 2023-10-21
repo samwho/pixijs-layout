@@ -19,6 +19,15 @@ export default abstract class Partitioner
       .reduce((a, b) => Math.min(a, b), Infinity);
   }
 
+  private _isContainer(obj: DisplayObject): obj is Container {
+    // For whatever reason, when I do `obj instanceof Container`, it returns
+    // true in my tests but false when I import this library into another
+    // project. I spent time looking into it and concluded that there seemed
+    // to be 2 instances of pixi.js classes being loaded, one from .js files
+    // and the other from .mjs files. I never got to the bottom of this.
+    return "width" in obj && "height" in obj;
+  }
+
   leaves(fn: (l: LeafComponent) => LeafComponent): this {
     let i = 0;
     for (let _ of this._group) {
@@ -27,7 +36,7 @@ export default abstract class Partitioner
         child.leaves(fn);
       } else if (child instanceof LeafComponent) {
         this._group[i] = fn(child);
-      } else if (child instanceof Container) {
+      } else if (this._isContainer(child)) {
         this._group[i] = fn(Leaf(child));
       }
       i += 1;
