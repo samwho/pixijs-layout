@@ -1,9 +1,10 @@
 {
   "name": "pixijs-layout",
-  "version": "0.1.10",
+  "version": "0.1.11",
   "description": "",
   "main": "./out/index.js",
   "types": "./out/index.d.ts",
+  "type": "module",
   "scripts": {
     "prepublish": "npm run build",
     "build": "npx tsc",

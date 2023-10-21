@@ -140,6 +140,7 @@ export default abstract class Partitioner
 
       if (this._debug) {
         let dbg = new Graphics();
+        dbg.name = "dbg";
         dbg.zIndex = -Infinity;
         dbg.beginFill(0x000000, 0.05);
         dbg.drawRect(1, 1, partition.width - 2, partition.height - 2);

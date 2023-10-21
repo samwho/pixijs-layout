@@ -1,8 +1,11 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.StackComponent = exports.VStack = exports.HStack = exports.Stack = void 0;
 const pixi_js_legacy_1 = require("pixi.js-legacy");
-const Partitioner_1 = require("./Partitioner");
+const Partitioner_1 = __importDefault(require("./Partitioner"));
 var Direction;
 (function (Direction) {
     Direction[Direction["Horizontal"] = 0] = "Horizontal";
