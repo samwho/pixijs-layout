@@ -109,7 +109,6 @@ class Partitioner extends pixi_js_legacy_1.Container {
             container.zIndex = child.zIndex;
             if (this._debug) {
                 let dbg = new pixi_js_legacy_1.Graphics();
-                dbg.name = "dbg";
                 dbg.zIndex = -Infinity;
                 dbg.beginFill(0x000000, 0.05);
                 dbg.drawRect(1, 1, partition.width - 2, partition.height - 2);
