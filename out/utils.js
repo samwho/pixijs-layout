@@ -1,7 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.getDimension = void 0;
-function getDimension(value, reference) {
+export function getDimension(value, reference) {
     if (typeof value === "number") {
         return value;
     }
@@ -10,4 +7,3 @@ function getDimension(value, reference) {
     }
     throw new Error(`Invalid value: ${value}`);
 }
-exports.getDimension = getDimension;

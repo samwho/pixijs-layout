@@ -1,30 +1,21 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.StackComponent = exports.VStack = exports.HStack = exports.Stack = void 0;
-const pixi_js_legacy_1 = require("pixi.js-legacy");
-const Partitioner_1 = __importDefault(require("./Partitioner"));
+import { Rectangle } from "pixi.js-legacy";
+import Partitioner from "./Partitioner";
 var Direction;
 (function (Direction) {
     Direction[Direction["Horizontal"] = 0] = "Horizontal";
     Direction[Direction["Vertical"] = 1] = "Vertical";
     Direction[Direction["Auto"] = 2] = "Auto";
 })(Direction || (Direction = {}));
-function Stack(...objects) {
+export function Stack(...objects) {
     return new StackComponent(...objects);
 }
-exports.Stack = Stack;
-function HStack(...objects) {
+export function HStack(...objects) {
     return new StackComponent(...objects).horizontal();
 }
-exports.HStack = HStack;
-function VStack(...objects) {
+export function VStack(...objects) {
     return new StackComponent(...objects).vertical();
 }
-exports.VStack = VStack;
-class StackComponent extends Partitioner_1.default {
+export class StackComponent extends Partitioner {
     constructor(...children) {
         super(...children);
         this._spacing = 0;
@@ -58,7 +49,7 @@ class StackComponent extends Partitioner_1.default {
         for (let _ of objects) {
             let proportion = this._proportions[i++];
             let splitWidth = width * proportion;
-            let partition = new pixi_js_legacy_1.Rectangle(x, space.y, splitWidth, space.height);
+            let partition = new Rectangle(x, space.y, splitWidth, space.height);
             x += splitWidth + this._spacing;
             yield partition;
         }
@@ -70,7 +61,7 @@ class StackComponent extends Partitioner_1.default {
         for (let _ of objects) {
             let proportion = this._proportions[i++];
             let splitHeight = height * proportion;
-            let partition = new pixi_js_legacy_1.Rectangle(space.x, y, space.width, splitHeight);
+            let partition = new Rectangle(space.x, y, space.width, splitHeight);
             y += splitHeight + this._spacing;
             yield partition;
         }
@@ -89,4 +80,3 @@ class StackComponent extends Partitioner_1.default {
         }
     }
 }
-exports.StackComponent = StackComponent;

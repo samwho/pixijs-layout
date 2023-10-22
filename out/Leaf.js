@@ -1,8 +1,5 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.LeafComponent = exports.Leaf = void 0;
-const pixi_js_legacy_1 = require("pixi.js-legacy");
-const utils_1 = require("./utils");
+import { Rectangle, Container } from "pixi.js-legacy";
+import { getDimension } from "./utils";
 var Resize;
 (function (Resize) {
     Resize[Resize["None"] = 0] = "None";
@@ -16,14 +13,13 @@ var Align;
     Align[Align["End"] = 2] = "End";
     Align[Align["None"] = 3] = "None";
 })(Align || (Align = {}));
-function Leaf(child) {
+export function Leaf(child) {
     return new LeafComponent(child);
 }
-exports.Leaf = Leaf;
-class LeafComponent extends pixi_js_legacy_1.Container {
+export class LeafComponent extends Container {
     constructor(child) {
         super();
-        this._space = new pixi_js_legacy_1.Rectangle();
+        this._space = new Rectangle();
         this._maxWidth = Infinity;
         this._maxHeight = Infinity;
         this._minWidth = 0;
@@ -94,15 +90,15 @@ class LeafComponent extends pixi_js_legacy_1.Container {
             return;
         }
         this._space = space.clone();
-        let padding = (0, utils_1.getDimension)(this._padding, Math.max(space.width, space.height));
+        let padding = getDimension(this._padding, Math.max(space.width, space.height));
         space.x += padding;
         space.y += padding;
         space.width -= padding * 2;
         space.height -= padding * 2;
-        let maxWidth = (0, utils_1.getDimension)(this._maxWidth, space.width);
-        let maxHeight = (0, utils_1.getDimension)(this._maxHeight, space.height);
-        let minWidth = (0, utils_1.getDimension)(this._minWidth, space.width);
-        let minHeight = (0, utils_1.getDimension)(this._minHeight, space.height);
+        let maxWidth = getDimension(this._maxWidth, space.width);
+        let maxHeight = getDimension(this._maxHeight, space.height);
+        let minWidth = getDimension(this._minWidth, space.width);
+        let minHeight = getDimension(this._minHeight, space.height);
         let x = this._child.x;
         let y = this._child.y;
         let width = this._child.width;
@@ -177,4 +173,3 @@ class LeafComponent extends pixi_js_legacy_1.Container {
         }
     }
 }
-exports.LeafComponent = LeafComponent;
