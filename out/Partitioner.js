@@ -1,8 +1,6 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const pixi_js_legacy_1 = require("pixi.js-legacy");
-const Leaf_1 = require("./Leaf");
-class Partitioner extends pixi_js_legacy_1.Container {
+import { Container, Graphics, Rectangle } from "pixi.js-legacy";
+import { Leaf, LeafComponent } from "./Leaf";
+export default class Partitioner extends Container {
     constructor(...children) {
         super();
         this._debug = false;
@@ -28,11 +26,11 @@ class Partitioner extends pixi_js_legacy_1.Container {
             if (child instanceof Partitioner) {
                 child.leaves(fn);
             }
-            else if (child instanceof Leaf_1.LeafComponent) {
+            else if (child instanceof LeafComponent) {
                 this._group[i] = fn(child);
             }
             else if (this._isContainer(child)) {
-                this._group[i] = fn((0, Leaf_1.Leaf)(child));
+                this._group[i] = fn(Leaf(child));
             }
             i += 1;
         }
@@ -101,14 +99,14 @@ class Partitioner extends pixi_js_legacy_1.Container {
                 throw new Error("more partitions than children");
             }
             i += 1;
-            let container = new pixi_js_legacy_1.Container();
+            let container = new Container();
             container.x = partition.x;
             container.y = partition.y;
             container.width = partition.width;
             container.height = partition.height;
             container.zIndex = child.zIndex;
             if (this._debug) {
-                let dbg = new pixi_js_legacy_1.Graphics();
+                let dbg = new Graphics();
                 dbg.name = "dbg";
                 dbg.zIndex = -Infinity;
                 dbg.beginFill(0x000000, 0.05);
@@ -122,7 +120,7 @@ class Partitioner extends pixi_js_legacy_1.Container {
                 child._debug = this._debug;
             }
             if ("arrange" in child && typeof child.arrange === "function") {
-                child.arrange(new pixi_js_legacy_1.Rectangle(0, 0, partition.width, partition.height));
+                child.arrange(new Rectangle(0, 0, partition.width, partition.height));
             }
         }
         if (i < this._group.length) {
@@ -130,4 +128,3 @@ class Partitioner extends pixi_js_legacy_1.Container {
         }
     }
 }
-exports.default = Partitioner;

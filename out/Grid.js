@@ -1,16 +1,9 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.GridComponent = exports.Grid = void 0;
-const pixi_js_legacy_1 = require("pixi.js-legacy");
-const Partitioner_1 = __importDefault(require("./Partitioner"));
-function Grid(...objects) {
+import { Rectangle } from "pixi.js-legacy";
+import Partitioner from "./Partitioner";
+export function Grid(...objects) {
     return new GridComponent(...objects);
 }
-exports.Grid = Grid;
-class GridComponent extends Partitioner_1.default {
+export class GridComponent extends Partitioner {
     constructor(...children) {
         super(...children);
     }
@@ -24,7 +17,7 @@ class GridComponent extends Partitioner_1.default {
         let row = 0;
         let column = 0;
         for (let _ of containers) {
-            let partition = new pixi_js_legacy_1.Rectangle(space.x + column * width, space.y + row * height, width, height);
+            let partition = new Rectangle(space.x + column * width, space.y + row * height, width, height);
             yield partition;
             column++;
             if (column >= columns) {
@@ -34,4 +27,3 @@ class GridComponent extends Partitioner_1.default {
         }
     }
 }
-exports.GridComponent = GridComponent;
