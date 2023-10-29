@@ -101,56 +101,57 @@ export class LeafComponent extends Container implements Positioner {
     return this;
   }
 
-  arrange(space: Rectangle): void {
+  arrange(rect: Rectangle): void {
     if (
-      this._space.x === space.x &&
-      this._space.y === space.y &&
-      this._space.width === space.width &&
-      this._space.height === space.height
+      this._space.x === rect.x &&
+      this._space.y === rect.y &&
+      this._space.width === rect.width &&
+      this._space.height === rect.height
     ) {
       return;
     }
-    this._space = space.clone();
+    this._space = rect;
+    let space = rect.clone();
 
     let padding = getDimension(
       this._padding,
-      Math.max(this._space.width, this._space.height),
+      Math.max(space.width, space.height),
     );
 
-    this._space.x += padding;
-    this._space.y += padding;
-    this._space.width -= padding * 2;
-    this._space.height -= padding * 2;
+    space.x += padding;
+    space.y += padding;
+    space.width -= padding * 2;
+    space.height -= padding * 2;
 
-    let maxWidth = getDimension(this._maxWidth, this._space.width);
-    let maxHeight = getDimension(this._maxHeight, this._space.height);
-    let minWidth = getDimension(this._minWidth, this._space.width);
-    let minHeight = getDimension(this._minHeight, this._space.height);
+    let maxWidth = getDimension(this._maxWidth, space.width);
+    let maxHeight = getDimension(this._maxHeight, space.height);
+    let minWidth = getDimension(this._minWidth, space.width);
+    let minHeight = getDimension(this._minHeight, space.height);
 
     let x = this._child.x;
     let y = this._child.y;
     let width = this._child.width;
     let height = this._child.height;
-    let containerAspectRatio = this._space.width / this._space.height;
+    let containerAspectRatio = space.width / space.height;
     let aspectRatio = width / height;
 
     switch (this._resize) {
       case Resize.Fit:
-        x = this._space.x;
-        y = this._space.y;
+        x = space.x;
+        y = space.y;
         if (containerAspectRatio > aspectRatio) {
-          width = this._space.height * aspectRatio;
-          height = this._space.height;
+          width = space.height * aspectRatio;
+          height = space.height;
         } else {
-          height = this._space.width * aspectRatio;
-          width = this._space.width;
+          height = space.width * aspectRatio;
+          width = space.width;
         }
         break;
       case Resize.Stretch:
-        x = this._space.x;
-        y = this._space.y;
-        width = this._space.width;
-        height = this._space.height;
+        x = space.x;
+        y = space.y;
+        width = space.width;
+        height = space.height;
         break;
     }
 
@@ -173,25 +174,25 @@ export class LeafComponent extends Container implements Positioner {
 
     switch (this._xAlign) {
       case Align.Start:
-        x = this._space.x;
+        x = space.x;
         break;
       case Align.Middle:
-        x = this._space.x + this._space.width / 2;
+        x = space.x + space.width / 2;
         break;
       case Align.End:
-        x = this._space.x + this._space.width - width;
+        x = space.x + space.width - width;
         break;
     }
 
     switch (this._yAlign) {
       case Align.Start:
-        y = this._space.y;
+        y = space.y;
         break;
       case Align.Middle:
-        y = this._space.y + this._space.height / 2;
+        y = space.y + space.height / 2;
         break;
       case Align.End:
-        y = this._space.y + this._space.height - height;
+        y = space.y + space.height - height;
         break;
     }
 
