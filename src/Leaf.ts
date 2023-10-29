@@ -110,7 +110,7 @@ export class LeafComponent extends Container implements Positioner {
     ) {
       return;
     }
-    this._space = rect;
+    this._space = rect.clone();
     let space = rect.clone();
 
     let padding = getDimension(
