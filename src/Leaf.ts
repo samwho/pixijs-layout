@@ -27,7 +27,10 @@ export class LeafComponent extends Container implements Positioner {
   _maxHeight: number | string = Infinity;
   _minWidth: number | string = 0;
   _minHeight: number | string = 0;
-  _padding: number | string = 0;
+  _paddingTop: number | string = 0;
+  _paddingBottom: number | string = 0;
+  _paddingLeft: number | string = 0;
+  _paddingRight: number | string = 0;
   _xAlign: Align = Align.None;
   _yAlign: Align = Align.None;
   _resize: Resize = Resize.None;
@@ -59,7 +62,30 @@ export class LeafComponent extends Container implements Positioner {
   }
 
   padding(value: number | string): this {
-    this._padding = value;
+    this._paddingTop = value;
+    this._paddingBottom = value;
+    this._paddingLeft = value;
+    this._paddingRight = value;
+    return this;
+  }
+
+  paddingTop(value: number | string): this {
+    this._paddingTop = value;
+    return this;
+  }
+
+  paddingBottom(value: number | string): this {
+    this._paddingBottom = value;
+    return this;
+  }
+
+  paddingLeft(value: number | string): this {
+    this._paddingLeft = value;
+    return this;
+  }
+
+  paddingRight(value: number | string): this {
+    this._paddingRight = value;
     return this;
   }
 
@@ -113,15 +139,20 @@ export class LeafComponent extends Container implements Positioner {
     this._space = rect.clone();
     let space = rect.clone();
 
-    let padding = getDimension(
-      this._padding,
-      Math.max(space.width, space.height),
-    );
-
-    space.x += padding;
-    space.y += padding;
-    space.width -= padding * 2;
-    space.height -= padding * 2;
+    if (this._paddingTop) {
+      space.y += getDimension(this._paddingTop, space.height);
+      space.height -= getDimension(this._paddingTop, space.height);
+    }
+    if (this._paddingBottom) {
+      space.height -= getDimension(this._paddingBottom, space.height);
+    }
+    if (this._paddingLeft) {
+      space.x += getDimension(this._paddingLeft, space.width);
+      space.width -= getDimension(this._paddingLeft, space.width);
+    }
+    if (this._paddingRight) {
+      space.width -= getDimension(this._paddingRight, space.width);
+    }
 
     let maxWidth = getDimension(this._maxWidth, space.width);
     let maxHeight = getDimension(this._maxHeight, space.height);
@@ -203,7 +234,7 @@ export class LeafComponent extends Container implements Positioner {
 
     if ("arrange" in this._child) {
       let child = this._child as Positioner;
-      child.arrange(this._space);
+      child.arrange(space);
     }
   }
 }
