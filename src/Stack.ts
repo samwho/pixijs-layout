@@ -1,4 +1,4 @@
-import { DisplayObject, Rectangle } from "pixi.js-legacy";
+import { Container, Rectangle } from "pixi.js";
 import Partitioner from "./Partitioner";
 
 enum Direction {
@@ -7,15 +7,15 @@ enum Direction {
   Auto,
 }
 
-export function Stack(...objects: DisplayObject[]): StackComponent {
+export function Stack(...objects: Container[]): StackComponent {
   return new StackComponent(...objects);
 }
 
-export function HStack(...objects: DisplayObject[]): StackComponent {
+export function HStack(...objects: Container[]): StackComponent {
   return new StackComponent(...objects).horizontal();
 }
 
-export function VStack(...objects: DisplayObject[]): StackComponent {
+export function VStack(...objects: Container[]): StackComponent {
   return new StackComponent(...objects).vertical();
 }
 
@@ -24,7 +24,7 @@ export class StackComponent extends Partitioner {
   private _proportions: number[];
   private _direction: Direction = Direction.Auto;
 
-  constructor(...children: DisplayObject[]) {
+  constructor(...children: Container[]) {
     super(...children);
     this._proportions = children.map(() => 1 / children.length);
   }
@@ -56,7 +56,7 @@ export class StackComponent extends Partitioner {
   }
 
   *horizontalPartition(
-    objects: DisplayObject[],
+    objects: Container[],
     space: Rectangle,
   ): Generator<Rectangle> {
     let i = 0;
@@ -72,7 +72,7 @@ export class StackComponent extends Partitioner {
   }
 
   *verticalPartition(
-    objects: DisplayObject[],
+    objects: Container[],
     space: Rectangle,
   ): Generator<Rectangle> {
     let i = 0;
@@ -87,7 +87,7 @@ export class StackComponent extends Partitioner {
     }
   }
 
-  *partition(objects: DisplayObject[], space: Rectangle): Generator<Rectangle> {
+  *partition(objects: Container[], space: Rectangle): Generator<Rectangle> {
     let direction = this._direction;
     if (direction === Direction.Auto) {
       direction =

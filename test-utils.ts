@@ -1,5 +1,5 @@
 import { expect } from "@jest/globals";
-import * as PIXI from "pixi.js-legacy";
+import { Application, Renderer, Graphics, Container } from "pixi.js";
 import fs from "fs";
 import Positioner from "./src/Positioner";
 
@@ -11,8 +11,8 @@ export function circle({
   x?: number;
   y?: number;
   radius?: number;
-} = {}): PIXI.Graphics {
-  let circle = new PIXI.Graphics();
+} = {}): Graphics {
+  let circle = new Graphics();
   circle.beginFill(0xff0000);
   circle.drawCircle(x ?? 0, y ?? 0, radius ?? 50);
   circle.endFill();
@@ -31,14 +31,14 @@ export function rect({
   width?: number;
   height?: number;
   center?: boolean;
-} = {}): PIXI.Graphics {
+} = {}): Graphics {
   x = x ?? 0;
   y = y ?? 0;
   width = width ?? 50;
   height = height ?? 50;
   center = center ?? false;
 
-  let rect = new PIXI.Graphics();
+  let rect = new Graphics();
 
   if (center) {
     rect.pivot.x = width / 2;
@@ -50,15 +50,15 @@ export function rect({
   return rect;
 }
 
-function innerTest(name: string, cb: (app: PIXI.Application) => void) {
+async function innerTest(name: string, cb: (app: Application) => void) {
   let canvas = document.createElement("canvas");
   canvas.width = 800;
   canvas.height = 600;
   document.body.appendChild(canvas);
 
-  let app = new PIXI.Application({
+  let app = new Application<Renderer<HTMLCanvasElement>>();
+  await app.init({
     autoStart: false,
-    forceCanvas: true,
     view: canvas,
     resizeTo: canvas,
     backgroundColor: 0xffffff,
@@ -92,17 +92,17 @@ function innerTest(name: string, cb: (app: PIXI.Application) => void) {
   document.body.removeChild(canvas);
 }
 
-export function appTest(name: string, cb: (app: PIXI.Application) => void) {
-  it(name, () => innerTest(name, cb));
+export function appTest(name: string, cb: (app: Application) => void) {
+  it(name, async () => await innerTest(name, cb));
 }
 
-appTest.only = (name: string, cb: (app: PIXI.Application) => void) => {
-  it.only(name, () => innerTest(name, cb));
+appTest.only = (name: string, cb: (app: Application) => void) => {
+  it.only(name, async () => await innerTest(name, cb));
 };
 
 export async function componentTest(
   name: string,
-  cb: (app: PIXI.Application) => Positioner & PIXI.DisplayObject,
+  cb: (app: Application) => Positioner & Container,
 ) {
   appTest(name, (app) => {
     let layout = cb(app);
@@ -113,7 +113,7 @@ export async function componentTest(
 
 componentTest.only = (
   name: string,
-  cb: (app: PIXI.Application) => Positioner & PIXI.DisplayObject,
+  cb: (app: Application) => Positioner & Container,
 ) => {
   appTest.only(name, (app) => {
     let layout = cb(app);

@@ -1,4 +1,4 @@
-import { Container } from "pixi.js-legacy";
+import { Container } from "pixi.js";
 import { Grid, HStack, Stack, VStack } from "./src";
 import { componentTest, circle, appTest, rect } from "./test-utils";
 

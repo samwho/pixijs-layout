@@ -1,14 +1,14 @@
-import { Container, DisplayObject, Rectangle } from "pixi.js-legacy";
+import { Container, Rectangle } from "pixi.js";
 import Partitioner from "./Partitioner";
 
-export function Grid(...objects: DisplayObject[]): GridComponent {
+export function Grid(...objects: Container[]): GridComponent {
   return new GridComponent(...objects);
 }
 
 export class GridComponent extends Partitioner {
   _centerLastRow: boolean = false;
 
-  constructor(...children: DisplayObject[]) {
+  constructor(...children: Container[]) {
     super(...children);
   }
 
@@ -26,7 +26,7 @@ export class GridComponent extends Partitioner {
     return 1;
   }
 
-  *partition(objects: DisplayObject[], space: Rectangle): Generator<Rectangle> {
+  *partition(objects: Container[], space: Rectangle): Generator<Rectangle> {
     let containers = objects as Container[];
 
     let factors = [];

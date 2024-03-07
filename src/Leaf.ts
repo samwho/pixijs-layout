@@ -1,4 +1,4 @@
-import { Rectangle, Container } from "pixi.js-legacy";
+import { Rectangle, Container } from "pixi.js";
 import Positioner from "./Positioner";
 import { getDimension } from "./utils";
 

@@ -1,4 +1,4 @@
-import { Container, DisplayObject, Graphics, Rectangle } from "pixi.js-legacy";
+import { Container, Graphics, Rectangle } from "pixi.js";
 import Positioner from "./Positioner";
 import { Leaf, LeafComponent } from "./Leaf";
 
@@ -7,10 +7,10 @@ export default abstract class Partitioner
   implements Positioner
 {
   protected _debug: boolean = false;
-  protected _group: DisplayObject[];
+  protected _group: Container[];
   protected _space: Rectangle | null = null;
 
-  constructor(...children: DisplayObject[]) {
+  constructor(...children: Container[]) {
     super();
     this._group = children;
     this.sortableChildren = true;
@@ -41,11 +41,11 @@ export default abstract class Partitioner
   }
 
   abstract partition(
-    objects: DisplayObject[],
+    objects: Container[],
     space: Rectangle,
   ): IterableIterator<Rectangle>;
 
-  override addChild<U extends DisplayObject[]>(...children: U): U[0] {
+  override addChild<U extends Container[]>(...children: U): U[0] {
     if (children.length === 0) {
       throw new Error("Cannot add zero children");
     }
@@ -58,13 +58,13 @@ export default abstract class Partitioner
     return firstChild;
   }
 
-  override addChildAt<U extends DisplayObject>(child: U, index: number): U {
+  override addChildAt = <U extends Container>(child: U, index: number): U => {
     this._group.splice(index, 0, child);
     this.refresh();
     return child;
-  }
+  };
 
-  override removeChild<U extends DisplayObject[]>(...children: U): U[0] {
+  override removeChild<U extends Container[]>(...children: U): U[0] {
     if (children.length === 0) {
       throw new Error("Cannot remove zero children");
     }
@@ -80,7 +80,7 @@ export default abstract class Partitioner
     return firstChild;
   }
 
-  override removeChildAt(index: number): DisplayObject {
+  override removeChildAt = <U extends Container>(index: number): U => {
     if (index < 0 || index >= this._group.length) {
       throw new Error("Index out of bounds");
     }
@@ -88,20 +88,21 @@ export default abstract class Partitioner
     let child = this._group[index]!;
     this._group.splice(index, 1);
     this.refresh();
+    // @ts-ignore
     return child;
-  }
+  };
 
-  override removeChildren(
+  override removeChildren = (
     beginIndex?: number | undefined,
     endIndex?: number | undefined,
-  ): DisplayObject[] {
+  ): Container[] => {
     let children = this._group.splice(
       beginIndex ?? 0,
       endIndex ?? this._group.length,
     );
     this.refresh();
     return children;
-  }
+  };
 
   refresh(): void {
     if (this._space) {
