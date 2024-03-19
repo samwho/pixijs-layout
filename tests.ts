@@ -334,3 +334,25 @@ componentTest("tube-center", () =>
 componentTest("tube-center-fit", () =>
   HStack(tube()).leaves((leaf) => leaf.center().fit()),
 );
+
+componentTest("tube-center-fit-padding-5pct", () =>
+  HStack(tube()).leaves((leaf) => leaf.center().fit().padding("5%")),
+);
+
+componentTest("tube-center-fit-padding-5px", () =>
+  HStack(tube()).leaves((leaf) => leaf.center().fit().padding(5)),
+);
+
+componentTest("grid-of-tube-fit", () =>
+  Grid(
+    tube(),
+    tube(),
+    tube(),
+    tube(),
+    tube(),
+    tube(),
+    tube(),
+    tube(),
+    tube(),
+  ).leaves((leaf) => leaf.center().fit().padding(5)),
+);
