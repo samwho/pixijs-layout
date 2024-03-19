@@ -8,11 +8,18 @@ export default abstract class Partitioner
 {
   protected _debug: boolean = false;
   protected _group: DisplayObject[];
+  protected _containers: Container[] = [];
   protected _space: Rectangle | null = null;
 
   constructor(...children: DisplayObject[]) {
     super();
     this._group = children;
+    for (const child of children) {
+      const container = new Container();
+      container.addChild(child);
+      this._containers.push(container);
+      super.addChild(container);
+    }
     this.sortableChildren = true;
     this.zIndex = children
       .map((child) => child.zIndex)
@@ -22,13 +29,17 @@ export default abstract class Partitioner
   leaves(fn: (l: LeafComponent) => LeafComponent): this {
     let i = 0;
     for (let _ of this._group) {
-      let child = this._group[i]!;
+      const child = this._group[i]!;
       if (child instanceof Partitioner) {
         child.leaves(fn);
       } else if (child instanceof LeafComponent) {
         this._group[i] = fn(child);
+        this._containers[i]!.removeChildren();
+        this._containers[i]!.addChild(this._group[i]!);
       } else if (child instanceof Container) {
         this._group[i] = fn(Leaf(child));
+        this._containers[i]!.removeChildren();
+        this._containers[i]!.addChild(this._group[i]!);
       }
       i += 1;
     }
@@ -53,6 +64,10 @@ export default abstract class Partitioner
     let firstChild = children[0]!;
     for (let child of children) {
       this._group.push(child);
+      const container = new Container();
+      container.addChild(child);
+      this._containers.push(container);
+      super.addChild(container);
     }
     this.refresh();
     return firstChild;
@@ -60,6 +75,10 @@ export default abstract class Partitioner
 
   override addChildAt<U extends DisplayObject>(child: U, index: number): U {
     this._group.splice(index, 0, child);
+    const container = new Container();
+    container.addChild(child);
+    this._containers.splice(index, 0, container);
+    super.addChildAt(container, index);
     this.refresh();
     return child;
   }
@@ -74,6 +93,7 @@ export default abstract class Partitioner
       let index = this._group.indexOf(child);
       if (index >= 0) {
         this._group.splice(index, 1);
+        super.removeChildAt(index);
       }
     }
     this.refresh();
@@ -87,6 +107,8 @@ export default abstract class Partitioner
 
     let child = this._group[index]!;
     this._group.splice(index, 1);
+    this._containers.splice(index, 1);
+    super.removeChildAt(index);
     this.refresh();
     return child;
   }
@@ -99,6 +121,8 @@ export default abstract class Partitioner
       beginIndex ?? 0,
       endIndex ?? this._group.length,
     );
+    this._containers.splice(beginIndex ?? 0, endIndex ?? this._group.length);
+    super.removeChildren(beginIndex, endIndex);
     this.refresh();
     return children;
   }
@@ -111,36 +135,34 @@ export default abstract class Partitioner
 
   arrange(space: Rectangle) {
     this._space = space.clone();
-    super.removeChildren();
 
     let i = 0;
     for (let partition of this.partition(this._group, space)) {
-      let child = this._group[i];
+      const child = this._group[i];
       if (!child) {
         throw new Error("more partitions than children");
       }
 
-      i += 1;
-
-      let container = new Container();
-      container.x = partition.x;
-      container.y = partition.y;
-      container.width = partition.width;
-      container.height = partition.height;
-      container.zIndex = child.zIndex;
-
-      if (this._debug) {
-        let dbg = new Graphics();
-        dbg.name = "dbg";
-        dbg.zIndex = -Infinity;
-        dbg.beginFill(0x000000, 0.05);
-        dbg.drawRect(1, 1, partition.width - 2, partition.height - 2);
-        dbg.endFill();
-        container.addChild(dbg);
+      const container = this._containers[i];
+      if (!container) {
+        throw new Error("more partitions than children");
       }
 
-      container.addChild(child);
-      super.addChild(container);
+      container.position.set(partition.x, partition.y);
+
+      i += 1;
+
+      if (this._debug) {
+        if (!child.parent.getChildByName("dbg")) {
+          let dbg = new Graphics();
+          dbg.name = "dbg";
+          dbg.zIndex = -Infinity;
+          dbg.beginFill(0x000000, 0.05);
+          dbg.drawRect(1, 1, partition.width - 2, partition.height - 2);
+          dbg.endFill();
+          child.parent.addChildAt(dbg, 0);
+        }
+      }
 
       if ("_debug" in child) {
         child._debug = this._debug;
