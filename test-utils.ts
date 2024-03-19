@@ -50,6 +50,39 @@ export function rect({
   return rect;
 }
 
+export function tube({
+  x,
+  y,
+  width,
+  height,
+  center,
+}: {
+  x?: number;
+  y?: number;
+  width?: number;
+  height?: number;
+  center?: boolean;
+} = {}): PIXI.Graphics {
+  x = x ?? 0;
+  y = y ?? 0;
+  width = width ?? 100;
+  height = height ?? 50;
+  center = center ?? true;
+
+  let tube = new PIXI.Graphics();
+
+  if (center) {
+    tube.pivot.x = width / 2;
+    tube.pivot.y = height / 2;
+  }
+  tube.beginFill(0xff0000);
+  tube.drawRect(x, y, width, height);
+  tube.drawCircle(x, y + height / 2, height / 2);
+  tube.drawCircle(x + width, y + height / 2, height / 2);
+  tube.endFill();
+  return tube;
+}
+
 function innerTest(name: string, cb: (app: PIXI.Application) => void) {
   let canvas = document.createElement("canvas");
   canvas.width = 800;

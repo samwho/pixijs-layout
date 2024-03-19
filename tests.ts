@@ -1,6 +1,6 @@
 import { Container } from "pixi.js-legacy";
 import { Grid, HStack, Stack, VStack } from "./src";
-import { componentTest, circle, appTest, rect } from "./test-utils";
+import { componentTest, circle, appTest, rect, tube } from "./test-utils";
 
 componentTest("1x2-hstack", () =>
   HStack(new Container(), new Container()).debug(),
@@ -325,4 +325,12 @@ componentTest("complex-debug", () =>
   )
     .debug()
     .leaves((leaf) => leaf.fit().padding("10%")),
+);
+
+componentTest("tube-center", () =>
+  HStack(tube()).leaves((leaf) => leaf.center()),
+);
+
+componentTest("tube-center-fit", () =>
+  HStack(tube()).leaves((leaf) => leaf.center().fit()),
 );

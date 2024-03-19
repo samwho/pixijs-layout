@@ -1,4 +1,4 @@
-import { Rectangle, Container } from "pixi.js-legacy";
+import { Rectangle, Container } from "pixi.js";
 import Positioner from "./Positioner";
 import { getDimension } from "./utils";
 
@@ -174,7 +174,7 @@ export class LeafComponent extends Container implements Positioner {
           width = space.height * aspectRatio;
           height = space.height;
         } else {
-          height = space.width * aspectRatio;
+          height = space.width / aspectRatio;
           width = space.width;
         }
         break;
