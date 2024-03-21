@@ -56,12 +56,14 @@ export function tube({
   width,
   height,
   center,
+  angle,
 }: {
   x?: number;
   y?: number;
   width?: number;
   height?: number;
   center?: boolean;
+  angle?: number;
 } = {}): PIXI.Graphics {
   x = x ?? 0;
   y = y ?? 0;
@@ -80,6 +82,8 @@ export function tube({
   tube.drawCircle(x, y + height / 2, height / 2);
   tube.drawCircle(x + width, y + height / 2, height / 2);
   tube.endFill();
+
+  tube.angle = angle ?? 0;
   return tube;
 }
 

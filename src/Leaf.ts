@@ -15,6 +15,40 @@ enum Align {
   None,
 }
 
+function getRotatedDimensions(width: number, height: number, rotation: number) {
+  const sinAngle = Math.abs(Math.sin(rotation));
+  const cosAngle = Math.abs(Math.cos(rotation));
+  return {
+    width: width * cosAngle + height * sinAngle,
+    height: width * sinAngle + height * cosAngle,
+  };
+}
+
+function getOriginalDimensions(
+  rotatedWidth: number,
+  rotatedHeight: number,
+  rotation: number,
+) {
+  const sinAngle = Math.abs(Math.sin(rotation));
+  const cosAngle = Math.abs(Math.cos(rotation));
+
+  const originalWidth =
+    (rotatedWidth * cosAngle + rotatedHeight * sinAngle) /
+    (cosAngle + sinAngle);
+  const originalHeight =
+    (rotatedHeight * cosAngle + rotatedWidth * sinAngle) /
+    (cosAngle + sinAngle);
+
+  // const originalWidth =
+  //   (rotatedWidth * cosAngle + rotatedHeight * sinAngle) /
+  //   (cosAngle * cosAngle + sinAngle * sinAngle);
+  // const originalHeight =
+  //   (rotatedHeight * cosAngle + rotatedWidth * sinAngle) /
+  //   (cosAngle * cosAngle + sinAngle * sinAngle);
+
+  return { width: originalWidth, height: originalHeight };
+}
+
 export function Leaf(child: Container): LeafComponent {
   return new LeafComponent(child);
 }
@@ -161,8 +195,11 @@ export class LeafComponent extends Container implements Positioner {
 
     let x = this._child.x;
     let y = this._child.y;
-    let width = this._child.width;
-    let height = this._child.height;
+    let { width, height } = getRotatedDimensions(
+      this._child.width,
+      this._child.height,
+      this._child.rotation,
+    );
     let containerAspectRatio = space.width / space.height;
     let aspectRatio = width / height;
 
@@ -229,8 +266,15 @@ export class LeafComponent extends Container implements Positioner {
 
     this._child.x = x;
     this._child.y = y;
-    this._child.width = width;
-    this._child.height = height;
+
+    const finalDimensions = getOriginalDimensions(
+      width,
+      height,
+      this._child.rotation,
+    );
+
+    this._child.width = finalDimensions.width;
+    this._child.height = finalDimensions.height;
 
     if ("arrange" in this._child) {
       let child = this._child as Positioner;
