@@ -153,15 +153,18 @@ export default abstract class Partitioner
       i += 1;
 
       if (this._debug) {
-        if (!child.parent.getChildByName("dbg")) {
-          let dbg = new Graphics();
+        let dbg = child.parent.getChildByName("dbg") as Graphics;
+        if (!dbg) {
+          dbg = new Graphics();
           dbg.name = "dbg";
           dbg.zIndex = -Infinity;
-          dbg.beginFill(0x000000, 0.05);
-          dbg.drawRect(1, 1, partition.width - 2, partition.height - 2);
-          dbg.endFill();
           child.parent.addChildAt(dbg, 0);
         }
+
+        dbg.clear();
+        dbg.beginFill(0x000000, 0.05);
+        dbg.drawRect(1, 1, partition.width - 2, partition.height - 2);
+        dbg.endFill();
       }
 
       if ("_debug" in child) {

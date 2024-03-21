@@ -1,0 +1,55 @@
+<html>
+
+<head>
+  <script type="module">
+    import { HStack, Leaf } from '/example/dist/index.js';
+    import { Application, Graphics } from '/example/pixi-legacy.mjs';
+    document.addEventListener('DOMContentLoaded', function () {
+      let canvas = document.createElement("canvas");
+      canvas.style.width = "100%";
+      canvas.style.height = "100%";
+
+      canvas.width = 800;
+      canvas.height = 600;
+      document.body.appendChild(canvas);
+
+      let app = new Application({
+        forceCanvas: true,
+        view: canvas,
+        resizeTo: canvas,
+        backgroundColor: 0xffffff,
+      });
+
+      globalThis.__PIXI_APP__ = app;
+
+      const g1 = new Graphics();
+      g1.beginFill(0xff0000);
+      g1.drawRect(0, 0, 100, 100);
+      g1.endFill();
+      g1.pivot.set(50, 50);
+
+      const g2 = new Graphics();
+      g2.beginFill(0xff0000);
+      g2.drawRect(0, 0, 50, 100);
+      g2.endFill();
+      g2.pivot.set(25, 50);
+
+      let component = HStack(Leaf(g1), Leaf(g2))
+        .proportions(2, 1)
+        .leaves(leaf => leaf.fit().padding("5%"))
+        .debug();
+
+      app.stage.addChild(component);
+      component.arrange(app.screen);
+
+      new ResizeObserver(() => {
+        component.arrange(app.screen);
+      }).observe(canvas);
+    });
+  </script>
+</head>
+
+<body>
+</body>
+
+</html>

@@ -155,7 +155,6 @@ componentTest.only = (
   appTest.only(name, (app) => {
     let layout = cb(app);
     app.stage.addChild(layout);
-    layout.arrange(app.renderer.screen);
     layout.arrange(new PIXI.Rectangle(0, 0, 50, 50));
     layout.arrange(app.renderer.screen);
   });
