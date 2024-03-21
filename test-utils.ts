@@ -51,39 +51,39 @@ export function rect({
 }
 
 export function tube({
-  x,
-  y,
-  width,
-  height,
-  center,
-  angle,
+  x = 0,
+  y = 0,
+  width = 100,
+  height = 50,
+  center = true,
+  orientation = "horizontal",
 }: {
   x?: number;
   y?: number;
   width?: number;
   height?: number;
   center?: boolean;
-  angle?: number;
+  orientation?: "horizontal" | "vertical";
 } = {}): PIXI.Graphics {
-  x = x ?? 0;
-  y = y ?? 0;
-  width = width ?? 100;
-  height = height ?? 50;
-  center = center ?? true;
-
   let tube = new PIXI.Graphics();
-
   if (center) {
     tube.pivot.x = width / 2;
     tube.pivot.y = height / 2;
   }
-  tube.beginFill(0xff0000);
-  tube.drawRect(x, y, width, height);
-  tube.drawCircle(x, y + height / 2, height / 2);
-  tube.drawCircle(x + width, y + height / 2, height / 2);
-  tube.endFill();
+  if (orientation === "horizontal") {
+    tube.beginFill(0xff0000);
+    tube.drawRect(x, y, width, height);
+    tube.drawCircle(x, y + height / 2, height / 2);
+    tube.drawCircle(x + width, y + height / 2, height / 2);
+    tube.endFill();
+  } else {
+    tube.beginFill(0xff0000);
+    tube.drawRect(x, y, width, height);
+    tube.drawCircle(x + width / 2, y, width / 2);
+    tube.drawCircle(x + width / 2, y + height, width / 2);
+    tube.endFill();
+  }
 
-  tube.angle = angle ?? 0;
   return tube;
 }
 

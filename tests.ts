@@ -357,20 +357,19 @@ componentTest("grid-of-tube-fit", () =>
   ).leaves((leaf) => leaf.center().fit().padding(5)),
 );
 
-componentTest("rotated-tube-center", () =>
-  HStack(tube({ angle: 90 })).leaves((leaf) => leaf.center()),
+componentTest("tall-segment", () =>
+  HStack(rect({ center: true }), rect({ center: true }))
+    .proportions(10, 1)
+    .leaves((leaf) => leaf.fit())
+    .debug(),
 );
 
-componentTest("rotated-tube-fit", () =>
-  HStack(tube({ angle: 90 })).leaves((leaf) => leaf.fit()),
+componentTest("tall-tube-segment", () =>
+  HStack(
+    tube({ center: true, orientation: "vertical" }),
+    tube({ center: true, orientation: "vertical" }),
+  )
+    .proportions(10, 1)
+    .leaves((leaf) => leaf.fit())
+    .debug(),
 );
-
-// Can't yet handle non-90 degree rotations
-// componentTest("rotated-tube-fit-45", () =>
-//   HStack(tube({ angle: 45 })).leaves((leaf) => leaf.fit()),
-// );
-//
-// Can't yet handle non-90 degree rotations
-// componentTest("rotated-tube-fit-10", () =>
-//   HStack(tube({ angle: 10 })).leaves((leaf) => leaf.fit()),
-// );
