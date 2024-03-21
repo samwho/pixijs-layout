@@ -373,3 +373,23 @@ componentTest("tall-tube-segment", () =>
     .leaves((leaf) => leaf.fit())
     .debug(),
 );
+
+componentTest("tall-wide-tube-segment", () =>
+  HStack(
+    tube({ center: true, orientation: "horizontal" }),
+    tube({ center: true, orientation: "horizontal" }),
+  )
+    .proportions(10, 1)
+    .leaves((leaf) => leaf.fit())
+    .debug(),
+);
+
+componentTest("wide-tube-segment", () =>
+  VStack(
+    tube({ center: true, orientation: "horizontal" }),
+    tube({ center: true, orientation: "horizontal" }),
+  )
+    .proportions(10, 1)
+    .leaves((leaf) => leaf.fit())
+    .debug(),
+);
