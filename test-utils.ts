@@ -1,21 +1,36 @@
 import { expect } from "@jest/globals";
 import * as PIXI from "pixi.js-legacy";
 import fs from "fs";
-import Positioner from "./src/Positioner";
+import { Positioner } from "./src/Positioner";
 
 export function circle({
   x,
   y,
   radius,
+  layoutWidth,
+  layoutHeight,
 }: {
   x?: number;
   y?: number;
   radius?: number;
+  layoutWidth?: number;
+  layoutHeight?: number;
 } = {}): PIXI.Graphics {
   let circle = new PIXI.Graphics();
   circle.beginFill(0xff0000);
   circle.drawCircle(x ?? 0, y ?? 0, radius ?? 50);
   circle.endFill();
+
+  if (layoutWidth) {
+    // @ts-expect-error
+    circle.getLayoutWidth = () => layoutWidth;
+  }
+
+  if (layoutHeight) {
+    // @ts-expect-error
+    circle.getLayoutHeight = () => layoutHeight;
+  }
+
   return circle;
 }
 
@@ -25,12 +40,16 @@ export function rect({
   width,
   height,
   center,
+  layoutWidth,
+  layoutHeight,
 }: {
   x?: number;
   y?: number;
   width?: number;
   height?: number;
   center?: boolean;
+  layoutWidth?: number;
+  layoutHeight?: number;
 } = {}): PIXI.Graphics {
   x = x ?? 0;
   y = y ?? 0;
@@ -47,6 +66,17 @@ export function rect({
   rect.beginFill(0xff0000);
   rect.drawRect(x, y, width, height);
   rect.endFill();
+
+  if (layoutWidth) {
+    // @ts-expect-error
+    rect.getLayoutWidth = () => layoutWidth;
+  }
+
+  if (layoutHeight) {
+    // @ts-expect-error
+    rect.getLayoutHeight = () => layoutHeight;
+  }
+
   return rect;
 }
 
@@ -57,6 +87,8 @@ export function tube({
   height = 50,
   center = true,
   orientation = "horizontal",
+  layoutWidth,
+  layoutHeight,
 }: {
   x?: number;
   y?: number;
@@ -64,6 +96,8 @@ export function tube({
   height?: number;
   center?: boolean;
   orientation?: "horizontal" | "vertical";
+  layoutWidth?: number;
+  layoutHeight?: number;
 } = {}): PIXI.Graphics {
   let tube = new PIXI.Graphics();
   if (center) {
@@ -82,6 +116,16 @@ export function tube({
     tube.drawCircle(x + width / 2, y, width / 2);
     tube.drawCircle(x + width / 2, y + height, width / 2);
     tube.endFill();
+  }
+
+  if (layoutWidth) {
+    // @ts-expect-error
+    tube.getLayoutWidth = () => layoutWidth;
+  }
+
+  if (layoutHeight) {
+    // @ts-expect-error
+    tube.getLayoutHeight = () => layoutHeight;
   }
 
   return tube;

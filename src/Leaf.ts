@@ -1,6 +1,6 @@
 import { Rectangle, Container } from "pixi.js-legacy";
-import Positioner from "./Positioner";
-import { getDimension } from "./utils";
+import { Positioner } from "./Positioner";
+import { isLayoutSize } from "./LayoutSize";
 
 enum Resize {
   None,
@@ -17,6 +17,16 @@ enum Align {
 
 export function Leaf(child: Container): LeafComponent {
   return new LeafComponent(child);
+}
+
+function getDimension(value: number | string, reference: number): number {
+  if (typeof value === "number") {
+    return value;
+  }
+  if (typeof value === "string" && value.endsWith("%")) {
+    return reference * (parseFloat(value) / 100);
+  }
+  throw new Error(`Invalid value: ${value}`);
 }
 
 export class LeafComponent extends Container implements Positioner {
@@ -161,8 +171,18 @@ export class LeafComponent extends Container implements Positioner {
 
     let x = this._child.x;
     let y = this._child.y;
-    let width = this._child.width;
-    let height = this._child.height;
+
+    let width: number, height: number;
+    if (isLayoutSize(this._child)) {
+      width = this._child.getLayoutWidth();
+      height = this._child.getLayoutHeight();
+    } else {
+      width = this._child.width;
+      height = this._child.height;
+    }
+    const originalWidth = width;
+    const originalHeight = height;
+
     let aspectRatio = width / height;
 
     switch (this._resize) {
@@ -230,8 +250,8 @@ export class LeafComponent extends Container implements Positioner {
     this._child.x = x;
     this._child.y = y;
 
-    this._child.width = width;
-    this._child.height = height;
+    this._child.scale.x = width / originalWidth;
+    this._child.scale.y = height / originalHeight;
 
     if ("arrange" in this._child) {
       let child = this._child as Positioner;

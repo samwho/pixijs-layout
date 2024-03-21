@@ -1,5 +1,5 @@
 import { DisplayObject, Rectangle } from "pixi.js-legacy";
-import Partitioner from "./Partitioner";
+import { Partitioner } from "./Partitioner";
 
 enum Direction {
   Horizontal,

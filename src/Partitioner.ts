@@ -1,11 +1,8 @@
 import { Container, DisplayObject, Graphics, Rectangle } from "pixi.js-legacy";
-import Positioner from "./Positioner";
+import { Positioner, isPositioner } from "./Positioner";
 import { Leaf, LeafComponent } from "./Leaf";
 
-export default abstract class Partitioner
-  extends Container
-  implements Positioner
-{
+export abstract class Partitioner extends Container implements Positioner {
   protected _debug: boolean = false;
   protected _group: DisplayObject[];
   protected _containers: Container[] = [];
@@ -171,7 +168,7 @@ export default abstract class Partitioner
         child._debug = this._debug;
       }
 
-      if ("arrange" in child && typeof child.arrange === "function") {
+      if (isPositioner(child)) {
         child.arrange(new Rectangle(0, 0, partition.width, partition.height));
       }
     }

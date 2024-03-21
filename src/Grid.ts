@@ -1,5 +1,5 @@
 import { Container, DisplayObject, Rectangle } from "pixi.js-legacy";
-import Partitioner from "./Partitioner";
+import { Partitioner } from "./Partitioner";
 
 export function Grid(...objects: DisplayObject[]): GridComponent {
   return new GridComponent(...objects);

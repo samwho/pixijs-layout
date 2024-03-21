@@ -393,3 +393,15 @@ componentTest("wide-tube-segment", () =>
     .leaves((leaf) => leaf.fit())
     .debug(),
 );
+
+componentTest("layout-size", () =>
+  HStack(
+    circle({
+      radius: 50,
+      layoutWidth: 200,
+      layoutHeight: 200,
+    }),
+  )
+    .leaves((leaf) => leaf.fit())
+    .debug(),
+);
