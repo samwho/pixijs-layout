@@ -1,5 +1,5 @@
 import { Rectangle, Container } from "pixi.js-legacy";
-import { Positioner } from "./Positioner";
+import { Positioner, isPositioner } from "./Positioner";
 import { isLayoutSize } from "./LayoutSize";
 
 enum Resize {
@@ -253,9 +253,8 @@ export class LeafComponent extends Container implements Positioner {
     this._child.scale.x = width / originalWidth;
     this._child.scale.y = height / originalHeight;
 
-    if ("arrange" in this._child) {
-      let child = this._child as Positioner;
-      child.arrange(space);
+    if (isPositioner(this._child)) {
+      this._child.arrange(space);
     }
   }
 }
