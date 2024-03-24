@@ -24,15 +24,18 @@
 
       const g1 = new Graphics();
       g1.beginFill(0xff0000);
-      g1.drawRect(0, 0, 100, 100);
+      g1.drawRect(0, 0, 100, 50);
       g1.endFill();
-      g1.pivot.set(50, 50);
+      g1.pivot.set(50, 25);
 
       const g2 = new Graphics();
       g2.beginFill(0xff0000);
-      g2.drawRect(0, 0, 50, 100);
+      g2.drawRect(0, 0, 50, 50);
       g2.endFill();
-      g2.pivot.set(25, 50);
+      g2.pivot.set(25, 25);
+
+      g2.getLayoutWidth = () => 50;
+      g2.getLayoutHeight = () => 50;
 
       let component = HStack(Leaf(g1), Leaf(g2))
         .proportions(2, 1)

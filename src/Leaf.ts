@@ -177,8 +177,8 @@ export class LeafComponent extends Container implements Positioner {
       width = this._child.getLayoutWidth();
       height = this._child.getLayoutHeight();
     } else {
-      width = this._child.width;
-      height = this._child.height;
+      width = this._child.width / this._child.scale.x;
+      height = this._child.height / this._child.scale.y;
     }
     const originalWidth = width;
     const originalHeight = height;
