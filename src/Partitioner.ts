@@ -21,6 +21,15 @@ export abstract class Partitioner extends Container implements Positioner {
     this.zIndex = children
       .map((child) => child.zIndex)
       .reduce((a, b) => Math.min(a, b), Infinity);
+
+    let hasInteractiveChildren = false;
+    for (const child of children) {
+      if (child.interactiveChildren) {
+        hasInteractiveChildren = true;
+        break;
+      }
+    }
+    this.interactiveChildren = hasInteractiveChildren;
   }
 
   leaves(fn: (l: LeafComponent) => LeafComponent): this {

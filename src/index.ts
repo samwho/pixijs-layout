@@ -4,6 +4,7 @@ import { Grid } from "./Grid";
 import { Positioner } from "./Positioner";
 import { Partitioner } from "./Partitioner";
 import { LayoutSize } from "./LayoutSize";
+import { LayoutContainer } from "./LayoutContainer";
 
 export {
   Stack,
@@ -14,4 +15,5 @@ export {
   Positioner,
   Partitioner,
   LayoutSize,
+  LayoutContainer,
 };

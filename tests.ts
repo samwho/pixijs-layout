@@ -1,5 +1,5 @@
-import { Container } from "pixi.js-legacy";
-import { Grid, HStack, Stack, VStack } from "./src";
+import { Container, DisplayObject } from "pixi.js-legacy";
+import { Grid, HStack, LayoutContainer, Stack, VStack } from "./src";
 import { componentTest, circle, appTest, rect, tube } from "./test-utils";
 
 componentTest("1x2-hstack", () =>
@@ -404,4 +404,36 @@ componentTest("layout-size", () =>
   )
     .leaves((leaf) => leaf.fit())
     .debug(),
+);
+
+class IndirectHStack extends LayoutContainer {
+  constructor(...children: DisplayObject[]) {
+    super(HStack(...children));
+  }
+}
+
+componentTest("indirect-hstack", () =>
+  VStack(
+    new IndirectHStack(circle(), circle(), circle()),
+    new IndirectHStack(circle(), circle(), circle()),
+    new IndirectHStack(circle(), circle(), circle()),
+  )
+    .debug()
+    .leaves((leaf) => leaf.fit().padding(5)),
+);
+
+class IndirectVStack extends LayoutContainer {
+  constructor(...children: DisplayObject[]) {
+    super(VStack(...children));
+  }
+}
+
+componentTest("indirect-vstack", () =>
+  HStack(
+    new IndirectVStack(circle(), circle(), circle()),
+    new IndirectVStack(circle(), circle(), circle()),
+    new IndirectVStack(circle(), circle(), circle()),
+  )
+    .debug()
+    .leaves((leaf) => leaf.fit().padding(5)),
 );

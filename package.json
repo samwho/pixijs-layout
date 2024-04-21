@@ -1,6 +1,6 @@
 {
   "name": "pixijs-layout",
-  "version": "0.1.25",
+  "version": "0.2.0",
   "description": "",
   "main": "./out/index.js",
   "types": "./out/index.d.ts",
